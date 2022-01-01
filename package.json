@@ -1,0 +1,26 @@
+{
+  "name": "EXT-RadioPlayer",
+  "version": "0.0.1",
+  "rev": "develop",
+  "description": "An embedded radio player on MagicMirror.",
+  "main": "EXT-RadioPlayer.js",
+  "scripts": {
+    "preinstall": "installer/preinstall.sh",
+    "postinstall": "installer/postinstall.sh"
+  },
+  "keywords": [
+    "magic mirror",
+    "module",
+    "radio"
+  ],
+  "author": "bugsounet",
+  "license": "MIT",
+  "bugs": {
+    "url": "http://forum.bugsounet.fr"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bugsounet/EXT-RadioPlayer"
+  },
+  "homepage": "http://wiki.bugsounet.fr/en/EXT-RadioPlayer"
+}

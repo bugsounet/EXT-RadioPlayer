@@ -1,0 +1,55 @@
+#EXT_RADIO {
+  width: 240px;
+  font-size: 16px;
+  height: auto;
+  font-size: large;
+  display: flex;
+  line-height: 1.5em;
+}
+
+#EXT_RADIO.hidden {
+  display: none;
+}
+
+#EXT_RADIO_IMG {
+  height: 100px;
+  width: auto;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#EXT_RADIO_FOREGROUND {
+  position:relative;
+  filter:none;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  display:flex;
+  box-sizing:border-box;
+  flex-direction:row;
+  justify-content: space-between;
+  padding:0;
+}
+
+#EXT_RADIO_BACKGROUND {
+  background-size: cover;
+  background-position: center center;
+  filter: blur(16px) opacity(90%) grayscale(33%);
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index:0;
+}
+
+/*
+#EXT_RADIO_FOREGROUND {
+  flex-direction:row;
+  padding:0;
+}
+*/
