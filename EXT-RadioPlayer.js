@@ -67,6 +67,7 @@ Module.register("EXT-RadioPlayer", {
       case "DOM_OBJECTS_CREATED":
         this.sendSocketNotification("INIT", this.config)
         if (this.config.onStart) this.radioCommand(this.config.Start)
+        this.sendNotification("EXT_HELLO", this.name)
         break
       case "EXT-RADIO-STOP":
         console.log(this.radioPlayer)
