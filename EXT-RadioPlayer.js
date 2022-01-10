@@ -8,13 +8,13 @@
 logRadio = (...args) => { /* do nothing */ }
 
 // @todo:
-// * volume control
-// * send noti for Gateway
+// not works really how i want ...
+// to recode vith cvlc !
 
 Module.register("EXT-RadioPlayer", {
   defaults: {
     debug: true,
-    onStart: true,
+    onStart: false,
     Start: {
       img: "modules/EXT-RadioPlayer/radios/LogosRadios/ChérieFM.png",
       link: "https://scdn.nrjaudio.fm/fr/30201/mp3_128.mp3?origine=EXT-RadioPlayer&cdn_path=audio_lbs9"
@@ -30,8 +30,7 @@ Module.register("EXT-RadioPlayer", {
       play: false,
       img: null,
       link: null,
-    },
-    this.createRadio()
+    }
   },
 
   getScripts: function() {
@@ -66,12 +65,18 @@ Module.register("EXT-RadioPlayer", {
     switch(noti) {
       case "DOM_OBJECTS_CREATED":
         this.sendSocketNotification("INIT", this.config)
-        if (this.config.onStart) this.radioCommand(this.config.Start)
         this.sendNotification("EXT_HELLO", this.name)
+        this.createRadio()
+        if (this.config.onStart) this.radioCommand(this.config.Start)
         break
-      case "EXT-RADIO-STOP":
-        console.log(this.radioPlayer)
+      case "EXT_RADIO-STOP":
         if (this.radioPlayer.play) this.radio.pause()
+        break
+      case "EXT_RADIO-VOLUME_MIN":
+        this.radio.volume = this.config.volumeMin
+        break
+      case "EXT_RADIO-VOLUME_MAX":
+        this.radio.volume = this.config.volumeMax
         break
     }
   },
@@ -110,24 +115,11 @@ Module.register("EXT-RadioPlayer", {
 
   showRadio: function() {
     if (this.radioPlayer.img) {
-      if (this.radioPlayer.play) {
-        this.showDivWithAnimatedFlip("EXT_RADIO")
-      } else {
-        this.hideDivWithAnimatedFlip("EXT_RADIO")
-      }
+      if (this.radioPlayer.play) this.showDivWithAnimatedFlip("EXT_RADIO")
+      else this.hideDivWithAnimatedFlip("EXT_RADIO")
     }
-    if (this.radioPlayer.play) {
-      /*
-      this.sendSocketNotification("SCREEN_WAKEUP")
-      this.hideDivWithAnimatedFlip("EXT_SCREEN_CONTENER")
-      this.sendSocketNotification("SCREEN_LOCK", true)
-      */
-    } else {
-      /*
-      this.sendSocketNotification("SCREEN_LOCK", false)
-      this.showDivWithAnimatedFlip("EXT_SCREEN_CONTENER")
-      */
-    }
+    if (this.radioPlayer.play) this.sendNotification("EXT_RADIO-CONNECTED")
+    else this.sendNotification("EXT_RADIO-DISCONNECTED")
   },
 
   hideDivWithAnimatedFlip: function(div) {
@@ -163,5 +155,5 @@ Module.register("EXT-RadioPlayer", {
       this.radio.src = payload.link
       this.radio.autoplay = true
     }
-  },
+  }
 })
