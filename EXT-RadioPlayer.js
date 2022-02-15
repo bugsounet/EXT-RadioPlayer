@@ -1,8 +1,8 @@
 /**
  ** Module : EXT-RadioPlayer
  ** @bugsounet
- ** ©01-2022
- ** support: http://forum.bugsounet.fr
+ ** ©02-2022
+ ** support: https://forum.bugsounet.fr
  **/
 
 logRadio = (...args) => { /* do nothing */ }
@@ -14,27 +14,25 @@ logRadio = (...args) => { /* do nothing */ }
 Module.register("EXT-RadioPlayer", {
   defaults: {
     debug: true,
-    onStart: false,
+    onStart: true,
     Start: {
       img: "modules/EXT-RadioPlayer/radios/LogosRadios/ChérieFM.png",
       link: "https://scdn.nrjaudio.fm/fr/30201/mp3_128.mp3?origine=EXT-RadioPlayer&cdn_path=audio_lbs9"
     },
-    volumeMax: 0.6,
-    volumeMin: 0.1
+    minVolume: 30,
+    maxVolume: 75,
   },
 
   start: function () {
     if (this.config.debug) logRadio = (...args) => { console.log("[RADIO]", ...args) }
     this.radio = null
+    this.initializeMusicVolumeVLC()
     this.radioPlayer= {
+      ready: false,
       play: false,
       img: null,
-      link: null,
+      link: null
     }
-  },
-
-  getScripts: function() {
-    return [ ]
   },
 
   getStyles: function () {
@@ -65,52 +63,36 @@ Module.register("EXT-RadioPlayer", {
     switch(noti) {
       case "DOM_OBJECTS_CREATED":
         this.sendSocketNotification("INIT", this.config)
-        this.sendNotification("EXT_HELLO", this.name)
-        this.createRadio()
-        if (this.config.onStart) this.radioCommand(this.config.Start)
         break
+      case "EXT_STOP":
       case "EXT_RADIO-STOP":
-        if (this.radioPlayer.play) this.radio.pause()
+        if (this.radioPlayer.play) this.sendSocketNotification("STOP")
         break
       case "EXT_RADIO-VOLUME_MIN":
-        this.radio.volume = this.config.volumeMin
+        if (this.radioPlayer.play) this.sendSocketNotification("VOLUME", this.config.minVolume)
         break
       case "EXT_RADIO-VOLUME_MAX":
-        this.radio.volume = this.config.volumeMax
+        if (this.radioPlayer.play) this.sendSocketNotification("VOLUME", this.config.maxVolume)
         break
     }
   },
 
-  /** Create Radio function and cb **/
-  createRadio: function () {
-    this.radio = new Audio()
-
-    this.radio.addEventListener("ended", ()=> {
-      logRadio("Radio ended")
-      this.radioPlayer.play = false
-      this.showRadio()
-    })
-    this.radio.addEventListener("pause", ()=> {
-      logRadio("Radio paused")
-      this.radioPlayer.play = false
-      this.showRadio()
-    })
-    this.radio.addEventListener("abort", ()=> {
-      logRadio("Radio aborted")
-      this.radioPlayer.play = false
-      this.showRadio()
-    })
-    this.radio.addEventListener("error", (err)=> {
-      logRadio("Radio error: " + err)
-      this.radioPlayer.play = false
-      this.showRadio()
-    })
-    this.radio.addEventListener("loadstart", ()=> {
-      logRadio("Radio started")
-      this.radioPlayer.play = true
-      this.radio.volume = this.config.volumeMax
-      this.showRadio()
-    })
+  socketNotificationReceived: function(noti, payload) {
+    switch(noti) {
+      case "PLAYING":
+        this.radioPlayer.play = true
+        this.showRadio()
+        break
+      case "FINISH":
+        this.radioPlayer.play = false
+        this.showRadio()
+        break
+      case "READY":
+        this.radioPlayer.ready = true
+        this.sendNotification("EXT_HELLO", this.name)
+        if (this.config.onStart) this.radioCommand(this.config.Start)
+        break
+    }
   },
 
   showRadio: function() {
@@ -143,6 +125,7 @@ Module.register("EXT-RadioPlayer", {
 
   /** Radio command (for recipe) **/
   radioCommand: function(payload) {
+    if (!this.radioPlayer.ready) return
     if (payload.link) {
       if (payload.img) {
         var radioImg = document.getElementById("EXT_RADIO_IMG")
@@ -152,8 +135,42 @@ Module.register("EXT-RadioPlayer", {
         backGround.style.backgroundImage = `url(${payload.img})`
       }
       this.radioPlayer.link = payload.link
-      this.radio.src = payload.link
-      this.radio.autoplay = true
+      this.sendSocketNotification("PLAY", payload.link)
     }
+  },
+
+  /** initialise volume control for VLC **/
+  initializeMusicVolumeVLC: function() {
+    /** convert volume **/
+    try {
+      let valueMin = null
+      valueMin = parseInt(this.config.minVolume)
+      if (typeof valueMin === "number" && valueMin >= 0 && valueMin <= 100) this.config.minVolume = this.convertPercentToValue(valueMin)
+      else {
+        console.error("[RADIO] config.minVolume error! Corrected with 30")
+        this.config.minVolume = 70
+      }
+    } catch (e) {
+      console.error("[RADIO] config.minVolume error!", e)
+      this.config.minVolume = 70
+    }
+    try {
+      let valueMax = null
+      valueMax = parseInt(this.config.maxVolume)
+      if (typeof valueMax === "number" && valueMax >= 0 && valueMax <= 100) this.config.maxVolume = this.convertPercentToValue(valueMax)
+      else {
+        console.error("[RADIO] config.maxVolume error! Corrected with 100")
+        this.config.maxVolume = 255
+      }
+    } catch (e) {
+      console.error("[RADIO] config.maxVolume error!", e)
+      this.config.maxVolume = 255
+    }
+    console.log("[RADIO] VLC Volume Control initialized!")
+  },
+
+  /** Convert percent to cvlc value **/
+  convertPercentToValue: function(percent) {
+    return parseInt(((percent*256)/100).toFixed(0))
   }
 })

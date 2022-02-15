@@ -1,7 +1,7 @@
 {
   "name": "EXT-RadioPlayer",
-  "version": "0.0.1",
-  "rev": "develop",
+  "version": "1.0.0",
+  "rev": "220215",
   "description": "An embedded radio player on MagicMirror.",
   "main": "EXT-RadioPlayer.js",
   "scripts": {
@@ -16,11 +16,14 @@
   "author": "bugsounet",
   "license": "MIT",
   "bugs": {
-    "url": "http://forum.bugsounet.fr"
+    "url": "https://forum.bugsounet.fr"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/bugsounet/EXT-RadioPlayer"
   },
-  "homepage": "http://wiki.bugsounet.fr/en/EXT-RadioPlayer"
+  "homepage": "https://wiki.bugsounet.fr/en/EXT-RadioPlayer",
+  "dependencies": {
+    "@bugsounet/cvlc": "^1.0.5"
+  }
 }
