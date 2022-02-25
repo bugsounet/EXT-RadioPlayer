@@ -7,10 +7,6 @@
 
 logRadio = (...args) => { /* do nothing */ }
 
-// @todo:
-// not works really how i want ...
-// to recode vith cvlc !
-
 Module.register("EXT-RadioPlayer", {
   defaults: {
     debug: true,
