@@ -7,6 +7,12 @@
 
 logRadio = (...args) => { /* do nothing */ }
 
+/** todo:
+ * make received noti for playing
+ * onStart !?
+ * make installer
+*/
+
 Module.register("EXT-RadioPlayer", {
   defaults: {
     debug: true,
@@ -55,10 +61,13 @@ Module.register("EXT-RadioPlayer", {
     return radio
   },
 
-  notificationReceived: function(noti, payload) {
+  notificationReceived: function(noti, payload, sender) {
     switch(noti) {
       case "DOM_OBJECTS_CREATED":
         this.sendSocketNotification("INIT", this.config)
+        break
+      case "GAv4_READY":
+        if (sender.name == "MMM-GoogleAssistant") this.sendNotification("EXT_HELLO", this.name)
         break
       case "EXT_STOP":
       case "EXT_RADIO-STOP":
@@ -85,7 +94,6 @@ Module.register("EXT-RadioPlayer", {
         break
       case "READY":
         this.radioPlayer.ready = true
-        this.sendNotification("EXT_HELLO", this.name)
         if (this.config.onStart) this.radioCommand(this.config.Start)
         break
     }
