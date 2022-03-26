@@ -1,26 +1,19 @@
 /**
  ** Module : EXT-RadioPlayer
- ** @bugsounet
- ** ©02-2022
+ ** ©@bugsounet
+ ** v03-2022
  ** support: https://forum.bugsounet.fr
  **/
 
 logRadio = (...args) => { /* do nothing */ }
 
 /** todo:
- * make received noti for playing
- * onStart !?
  * make installer
 */
 
 Module.register("EXT-RadioPlayer", {
   defaults: {
-    debug: true,
-    onStart: true,
-    Start: {
-      img: "modules/EXT-RadioPlayer/radios/LogosRadios/ChérieFM.png",
-      link: "https://scdn.nrjaudio.fm/fr/30201/mp3_128.mp3?origine=EXT-RadioPlayer&cdn_path=audio_lbs9"
-    },
+    debug: false,
     minVolume: 30,
     maxVolume: 75,
   },
@@ -79,6 +72,9 @@ Module.register("EXT-RadioPlayer", {
       case "EXT_RADIO-VOLUME_MAX":
         if (this.radioPlayer.play) this.sendSocketNotification("VOLUME", this.config.maxVolume)
         break
+      case "EXT_RADIO-START":
+        this.radioCommand(payload)
+        break
     }
   },
 
@@ -94,7 +90,6 @@ Module.register("EXT-RadioPlayer", {
         break
       case "READY":
         this.radioPlayer.ready = true
-        if (this.config.onStart) this.radioCommand(this.config.Start)
         break
     }
   },
@@ -131,6 +126,7 @@ Module.register("EXT-RadioPlayer", {
   radioCommand: function(payload) {
     if (!this.radioPlayer.ready) return
     if (payload.link) {
+      console.log(payload)
       if (payload.img) {
         var radioImg = document.getElementById("EXT_RADIO_IMG")
         var backGround = document.getElementById("EXT_RADIO_BACKGROUND")
