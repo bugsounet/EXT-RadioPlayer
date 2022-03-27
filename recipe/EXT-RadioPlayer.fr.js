@@ -59,10 +59,6 @@ var recipe = {
     "fg": {
       pattern: "mets radio fg",
       command: "fg"
-    },
-    "info": {
-      pattern: "mets les infos",
-      command: "info"
     }
   },
 
@@ -103,7 +99,7 @@ var recipe = {
         payload: (params) => {
           return {
             img: "modules/EXT-RadioPlayer/Logos/FR/Rire&Chansons.png",
-            link: "http://185.52.127.160/fr/30401/aac_64.mp3?origine=EXT-RadioPlayer"
+            link: "https://scdn.nrjaudio.fm/audio1/fr/30401/mp3_128.mp3"
           }
         }
       },
@@ -193,7 +189,7 @@ var recipe = {
         payload: (params) => {
           return {
             img: "modules/EXT-RadioPlayer/Logos/FR/NRJ.png",
-            link: "http://185.52.127.173/fr/40008/aac_64.mp3?origine=EXT_RadioPlayer"
+            link: "https://scdn.nrjaudio.fm/audio1/fr/30001/mp3_128.mp3"
           }
         }
       },
