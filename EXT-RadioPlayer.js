@@ -7,10 +7,6 @@
 
 logRadio = (...args) => { /* do nothing */ }
 
-/** todo:
- * make installer
-*/
-
 Module.register("EXT-RadioPlayer", {
   defaults: {
     debug: false,
@@ -26,7 +22,8 @@ Module.register("EXT-RadioPlayer", {
       ready: false,
       play: false,
       img: null,
-      link: null
+      link: null,
+      new: false
     }
   },
 
@@ -64,7 +61,10 @@ Module.register("EXT-RadioPlayer", {
         break
       case "EXT_STOP":
       case "EXT_RADIO-STOP":
-        if (this.radioPlayer.play) this.sendSocketNotification("STOP")
+        if (this.radioPlayer.play) {
+          this.radioPlayer.new = false
+          this.sendSocketNotification("STOP")
+        }
         break
       case "EXT_RADIO-VOLUME_MIN":
         if (this.radioPlayer.play) this.sendSocketNotification("VOLUME", this.config.minVolume)
@@ -86,7 +86,8 @@ Module.register("EXT-RadioPlayer", {
         break
       case "FINISH":
         this.radioPlayer.play = false
-        this.showRadio()
+        if (this.radioPlayer.new) this.radioPlayer.new = false
+        else this.showRadio()
         break
       case "READY":
         this.radioPlayer.ready = true
@@ -99,6 +100,7 @@ Module.register("EXT-RadioPlayer", {
       if (this.radioPlayer.play) this.showDivWithAnimatedFlip("EXT_RADIO")
       else this.hideDivWithAnimatedFlip("EXT_RADIO")
     }
+    if (this.radioPlayer.new) return
     if (this.radioPlayer.play) this.sendNotification("EXT_RADIO-CONNECTED")
     else this.sendNotification("EXT_RADIO-DISCONNECTED")
   },
@@ -125,6 +127,7 @@ Module.register("EXT-RadioPlayer", {
   /** Radio command (for recipe) **/
   radioCommand: function(payload) {
     if (!this.radioPlayer.ready) return
+    if (this.radioPlayer.play) this.radioPlayer.new = true
     if (payload.link) {
       console.log(payload)
       if (payload.img) {
