@@ -42,7 +42,7 @@ var recipe = {
         notification: "EXT_RADIO-START",
         payload: (params) => {
           return {
-            img: "modules/EXT-RadioPlayer/Logos/IT/kisskiss.png",
+            img: "modules/EXT-RadioPlayer/Logos/ES/Los_40_classic.png",
             link: "http://21313.live.streamtheworld.com/LOS40_CLASSIC.mp3"
           }
         }
@@ -57,7 +57,7 @@ var recipe = {
         notification: "EXT_RADIO-START",
         payload: (params) => {
           return {
-            img: "modules/EXT-RadioPlayer/Logos/IT/r101.png",
+            img: "modules/EXT-RadioPlayer/Logos/ES/Cadena_DIAL.png",
             link: "http://23603.live.streamtheworld.com/CADENADIAL.mp3"
           }
         }
@@ -72,7 +72,7 @@ var recipe = {
         notification: "EXT_RADIO-START",
         payload: (params) => {
           return {
-            img: "modules/EXT-RadioPlayer/Logos/IT/radioitalia.jpg",
+            img: "modules/EXT-RadioPlayer/Logos/ES/Kiss_FM.png",
             link: "http://kissfm.kissfmradio.cires21.com/kissfm.mp3"
           }
         }
@@ -87,7 +87,7 @@ var recipe = {
         notification: "EXT_RADIO-START",
         payload: (params) => {
           return {
-            img: "modules/EXT-RadioPlayer/Logos/IT/radio1.png",
+            img: "modules/EXT-RadioPlayer/Logos/ES/Los_40_urban.png",
             link: "http://23543.live.streamtheworld.com/LOS40_URBAN.mp3"
           }
         }
@@ -102,7 +102,7 @@ var recipe = {
         notification: "EXT_RADIO-START",
         payload: (params) => {
           return {
-            img: "modules/EXT-RadioPlayer/Logos/IT/r105.jpg",
+            img: "modules/EXT-RadioPlayer/Logos/ES/Hit_FM.jpg",
             link: "http://hitfm.kissfmradio.cires21.com/hitfm.mp3"
           }
         }
@@ -117,7 +117,7 @@ var recipe = {
         notification: "EXT_RADIO-START",
         payload: (params) => {
           return {
-            img: "modules/EXT-RadioPlayer/Logos/IT/rds.png",
+            img: "modules/EXT-RadioPlayer/Logos/ES/Generacion_radio.jpg",
             link: "https://antares.dribbcast.com/proxy/generacionradio?mp=/stream"
           }
         }
@@ -132,7 +132,7 @@ var recipe = {
         notification: "EXT_RADIO-START",
         payload: (params) => {
           return {
-            img: "modules/EXT-RadioPlayer/Logos/IT/rtl1025.png",
+            img: "modules/EXT-RadioPlayer/Logos/ES/Los40.jpg",
             link: "http://21253.live.streamtheworld.com/LOS40.mp3"
           }
         }
