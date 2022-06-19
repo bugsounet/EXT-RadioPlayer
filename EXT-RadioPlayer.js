@@ -48,6 +48,7 @@ Module.register("EXT-RadioPlayer", {
     var radioImg = document.createElement("img")
     radioImg.id = "EXT_RADIO_IMG"
     radioForeground.appendChild(radioImg)
+    radioImg.addEventListener('error', () => { radioImg.src = this.file("Logos/radio.jpg") }, false)
     return radio
   },
 
