@@ -2,7 +2,7 @@ EXT-RadioPlayer is a module for the [MagicMirror](https://github.com/MichMich/Ma
 
 This allows to play radio station on MagicMirror
 
-This module is an Extented plugins for `MMM-GoogleAssistant` v4.x
+This module is an Extented plugins for `MMM-GoogleAssistant` v5.x
 
 ## Installation / update / configuration
 
@@ -13,8 +13,3 @@ New forum and support for all @bugsounet modules is now localized [there](https:
  
 ## Donate
  [Donate](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TTHRH94Y4KL36&source=url), if you love this module !
-
-## Change Logs
-
-### 2022-03-26
-   -- first release
