@@ -62,7 +62,7 @@ module.exports = NodeHelper.create({
         if (this.RNumber < 0) this.RNumber = 0
         log("Ended #" + this.RNumber)
         if (this.RNumber == 0) {
-          logRadio("Finish !")
+          log("Finish !")
           this.sendSocketNotification("FINISH")
           this.Radio = null
         }
