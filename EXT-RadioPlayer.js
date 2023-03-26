@@ -78,7 +78,7 @@ Module.register("EXT-RadioPlayer", {
       case "WARNING": // EXT-Alert is unlocked for receive all alerts
         this.sendNotification("EXT_ALERT", {
           type: "warning",
-          message: "Error When Loading: " + payload.library + ". Try to solve it with `npm run rebuild` in EXT-RadioPlayer directory",
+          message: "Error When Loading: " + payload.library + ". Try to solve it with `npm install` in EXT-RadioPlayer directory",
           timer: 10000
         })
         break
@@ -132,7 +132,6 @@ Module.register("EXT-RadioPlayer", {
     if (!this.radioPlayer.ready) return
     if (this.radioPlayer.play) this.radioPlayer.new = true
     if (payload.link) {
-      console.log(payload)
       if (payload.img) {
         var radioImg = document.getElementById("EXT_RADIO_IMG")
         var backGround = document.getElementById("EXT_RADIO_BACKGROUND")

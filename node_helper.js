@@ -7,7 +7,7 @@ module.exports = NodeHelper.create({
   start: function () {
     this.config = {}
     this.Radio = null
-    this.Lib = []
+    this.lib = []
     this.RNumber = 0
   },
 
@@ -47,7 +47,7 @@ module.exports = NodeHelper.create({
     this.RNumber++
     if (this.Radio) this.CloseVlc()
     let cvlcArgs = ["--no-http-forward-cookies", "--play-and-exit", "--video-title=library @bugsounet/cvlc Radio Player"]
-    this.Radio = new this.Lib.cvlc(cvlcArgs)
+    this.Radio = new this.lib.cvlc(cvlcArgs)
     this.Radio.play(
       link,
       ()=> {
@@ -101,7 +101,7 @@ module.exports = NodeHelper.create({
         for (const [name, configValues] of Object.entries(library)) {
           let libraryToLoad = name
           let libraryName = configValues
-  
+
           try {
             if (!this.lib[libraryName]) {
               this.lib[libraryName] = require(libraryToLoad)
