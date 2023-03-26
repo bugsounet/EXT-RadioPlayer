@@ -1,7 +1,7 @@
 "use strict"
 
 var NodeHelper = require("node_helper")
-var logRadio = (...args) => { /* do nothing */ }
+var log = (...args) => { /* do nothing */ }
 
 module.exports = NodeHelper.create({
   start: function () {
@@ -30,7 +30,7 @@ module.exports = NodeHelper.create({
   },
 
   initialize: async function() {
-    if (this.config.debug) logRadio = (...args) => { console.log("[RADIO]", ...args) }
+    if (this.config.debug) log = (...args) => { console.log("[RADIO]", ...args) }
     console.log("[RADIO] EXT-RadioPlayer Version:", require('./package.json').version, "rev:", require('./package.json').rev)
     let bugsounet = await this.loadBugsounetLibrary()
     if (bugsounet) {
@@ -51,7 +51,7 @@ module.exports = NodeHelper.create({
     this.Radio.play(
       link,
       ()=> {
-        logRadio("Found link:", link)
+        log("Found link:", link)
         if (this.Radio) {
           this.Radio.cmd("volume "+ this.config.maxVolume)
           this.sendSocketNotification("PLAYING")
@@ -60,7 +60,7 @@ module.exports = NodeHelper.create({
       ()=> {
         this.RNumber--
         if (this.RNumber < 0) this.RNumber = 0
-        logRadio("Ended #" + this.RNumber)
+        log("Ended #" + this.RNumber)
         if (this.RNumber == 0) {
           logRadio("Finish !")
           this.sendSocketNotification("FINISH")
@@ -72,19 +72,17 @@ module.exports = NodeHelper.create({
 
   CloseVlc: function () {
     if (this.Radio) {
-      logRadio("Force Closing VLC...")
+      log("Force Closing VLC...")
       this.Radio.destroy()
       this.Radio = null
-      logRadio("Done Closing VLC...")
+      log("Done Closing VLC...")
     }
-    else {
-      log("Not running!")
-    }
+    else log("Not running!")
   },
 
   VolumeVLC: function(volume) {
     if (this.Radio) {
-      logRadio("Set VLC Volume to:", volume)
+      log("Set VLC Volume to:", volume)
       this.Radio.cmd("volume " + volume)
     }
   },
@@ -93,37 +91,31 @@ module.exports = NodeHelper.create({
   /** It will not crash MM (black screen) **/
   loadBugsounetLibrary: function() {
     let libraries= [
-      // { "library to load" : [ "store library name", "path to check" ] }
-      { "@bugsounet/cvlc": [ "cvlc", "maxVolume" ] }
+      // { "library to load" : "store library name" ] }
+      { "@bugsounet/cvlc": "cvlc" }
     ]
 
     let errors = 0
     return new Promise(resolve => {
       libraries.forEach(library => {
         for (const [name, configValues] of Object.entries(library)) {
-          let libraryToLoad = name,
-              libraryName = configValues[0],
-              libraryPath = configValues[1],
-              index = (obj,i) => { return obj[i] }
-
-          // libraryActivate: verify if the needed path of config is activated (result of reading config value: true/false) **/
-          let libraryActivate = libraryPath.split(".").reduce(index,this.config) 
-          if (libraryActivate) {
-            try {
-              if (!this.Lib[libraryName]) {
-                this.Lib[libraryName] = require(libraryToLoad)
-                logRadio("Loaded:", libraryToLoad)
-              }
-            } catch (e) {
-              this.sendSocketNotification("LIBRARY_ERROR", libraryToLoad) // -<< to code
-              console.error("[RADIO]", libraryToLoad, "Loading error!" , e)
-              errors++
+          let libraryToLoad = name
+          let libraryName = configValues
+  
+          try {
+            if (!this.lib[libraryName]) {
+              this.lib[libraryName] = require(libraryToLoad)
+              log("Loaded:", libraryToLoad, "->", "this.lib."+libraryName)
             }
+          } catch (e) {
+            console.error("[RADIO]", libraryToLoad, "Loading error!" , e.toString())
+            this.sendSocketNotification("WARNING" , {library: libraryToLoad })
+            errors++
           }
         }
       })
       resolve(errors)
+      if (!errors) console.log("[RADIO] All libraries loaded!")
     })
-  },
-
+  }
 })
