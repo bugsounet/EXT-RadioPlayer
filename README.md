@@ -1,4 +1,4 @@
-#EXT-RadioPlayer
+# EXT-RadioPlayer
 
 This allows to play radio station on MagicMirror
 
