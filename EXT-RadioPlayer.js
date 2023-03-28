@@ -25,10 +25,7 @@ Module.register("EXT-RadioPlayer", {
   },
 
   getStyles: function () {
-    return [
-      "EXT-RadioPlayer.css",
-      "https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-    ]
+    return [ "EXT-RadioPlayer.css" ]
   },
 
   getDom: function() {
