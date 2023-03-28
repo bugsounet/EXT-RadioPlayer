@@ -5,8 +5,6 @@
  ** support: https://forum.bugsounet.fr
  **/
 
-logRadio = (...args) => { /* do nothing */ }
-
 Module.register("EXT-RadioPlayer", {
   defaults: {
     debug: false,
@@ -15,7 +13,6 @@ Module.register("EXT-RadioPlayer", {
   },
 
   start: function () {
-    if (this.config.debug) logRadio = (...args) => { console.log("[RADIO]", ...args) }
     this.radio = null
     this.initializeMusicVolumeVLC()
     this.radioPlayer= {
@@ -28,10 +25,7 @@ Module.register("EXT-RadioPlayer", {
   },
 
   getStyles: function () {
-    return [
-      "EXT-RadioPlayer.css",
-      "https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-    ]
+    return [ "EXT-RadioPlayer.css" ]
   },
 
   getDom: function() {
@@ -53,13 +47,10 @@ Module.register("EXT-RadioPlayer", {
   },
 
   notificationReceived: function(noti, payload, sender) {
+    if (noti == "GW_READY" && sender.name == "Gateway") this.sendSocketNotification("INIT", this.config)
+    if (!this.radioPlayer.ready) return
+
     switch(noti) {
-      case "DOM_OBJECTS_CREATED":
-        this.sendSocketNotification("INIT", this.config)
-        break
-      case "GAv5_READY":
-        if (sender.name == "MMM-GoogleAssistant") this.sendNotification("EXT_HELLO", this.name)
-        break
       case "EXT_STOP":
       case "EXT_RADIO-STOP":
         if (this.radioPlayer.play) {
@@ -81,6 +72,13 @@ Module.register("EXT-RadioPlayer", {
 
   socketNotificationReceived: function(noti, payload) {
     switch(noti) {
+      case "WARNING": // EXT-Alert is unlocked for receive all alerts
+        this.sendNotification("EXT_ALERT", {
+          type: "warning",
+          message: "Error When Loading: " + payload.library + ". Try to solve it with `npm install` in EXT-RadioPlayer directory",
+          timer: 10000
+        })
+        break
       case "PLAYING":
         this.radioPlayer.play = true
         this.showRadio()
@@ -92,6 +90,7 @@ Module.register("EXT-RadioPlayer", {
         break
       case "READY":
         this.radioPlayer.ready = true
+        this.sendNotification("EXT_HELLO", this.name)
         break
     }
   },
@@ -130,7 +129,6 @@ Module.register("EXT-RadioPlayer", {
     if (!this.radioPlayer.ready) return
     if (this.radioPlayer.play) this.radioPlayer.new = true
     if (payload.link) {
-      console.log(payload)
       if (payload.img) {
         var radioImg = document.getElementById("EXT_RADIO_IMG")
         var backGround = document.getElementById("EXT_RADIO_BACKGROUND")
