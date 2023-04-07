@@ -110,9 +110,7 @@ Module.register("EXT-RadioPlayer", {
     module.classList.remove("animate__flipInX")
     module.classList.add("animate__flipOutX")
     module.addEventListener('animationend', (e) => {
-      if (e.animationName == "flipOutX" && e.path[0].id == div) {
-        module.classList.add("hidden")
-      }
+      if (e.animationName == "flipOutX") module.classList.add("hidden")
       e.stopPropagation()
     }, {once: true})
   },
