@@ -281,8 +281,10 @@ var recipe = {
       notificationExec: {
         notification: "EXT_RADIO-START",
         payload: {
-          img: "modules/EXT-RadioPlayer/Logos/FR/FranceInter.png",
-          link: "http://direct.franceinter.fr/live/franceinter-midfi.mp3"
+          return {
+            img: "modules/EXT-RadioPlayer/Logos/FR/FranceInter.png",
+            link: "http://direct.franceinter.fr/live/franceinter-midfi.mp3"
+          }
         }
       },
       displayResponse: false,
