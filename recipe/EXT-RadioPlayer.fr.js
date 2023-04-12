@@ -59,6 +59,10 @@ var recipe = {
     "fg": {
       pattern: "mets radio fg",
       command: "fg"
+    },
+    "franceinter": {
+      pattern: "mets france inter",
+      command: "franceinter" 
     }
   },
 
@@ -272,6 +276,19 @@ var recipe = {
       soundExec: {
         chime: "open"
       }
+    },
+    "franceinter": {
+      notificationExec: {
+        notification: "EXT_RADIO-START",
+        payload: (params) => {
+          return {
+            img: "modules/EXT-RadioPlayer/Logos/FR/FranceInter.png",
+            link: "http://direct.franceinter.fr/live/franceinter-midfi.mp3"
+          }
+        }
+      },
+      displayResponse: false,
+      soundExec: { chime: "open" }
     }
   }
 }
