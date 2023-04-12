@@ -280,7 +280,7 @@ var recipe = {
     "franceinter": {
       notificationExec: {
         notification: "EXT_RADIO-START",
-        payload: {
+        payload: (params) => {
           return {
             img: "modules/EXT-RadioPlayer/Logos/FR/FranceInter.png",
             link: "http://direct.franceinter.fr/live/franceinter-midfi.mp3"
