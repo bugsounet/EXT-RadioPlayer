@@ -92,7 +92,7 @@ module.exports = NodeHelper.create({
   loadBugsounetLibrary: function() {
     let libraries= [
       // { "library to load" : "store library name" ] }
-      { "@bugsounet/cvlc": "cvlc" }
+      { "@magicmirror2/cvlc": "cvlc" }
     ]
 
     let errors = 0
