@@ -1,11 +1,13 @@
 /**
  ** Module : EXT-RadioPlayer
  ** ©@bugsounet
- ** v03-2022
+ ** v09-2023
  ** support: https://forum.bugsounet.fr
  **/
 
 Module.register("EXT-RadioPlayer", {
+  requiresVersion: "2.25.0",
+
   defaults: {
     debug: false,
     minVolume: 30,
@@ -31,8 +33,6 @@ Module.register("EXT-RadioPlayer", {
   getDom: function() {
     var radio = document.createElement("div")
     radio.id = "EXT_RADIO"
-    radio.className = "hidden animate__animated"
-    radio.style.setProperty('--animate-duration', '1s')
     var radioBackground = document.createElement("div")
     radioBackground.id = "EXT_RADIO_BACKGROUND"
     radio.appendChild(radioBackground)
@@ -47,6 +47,7 @@ Module.register("EXT-RadioPlayer", {
   },
 
   notificationReceived: function(noti, payload, sender) {
+    if (noti == "MODULE_DOM_CREATED") this.hide(0, () => {}, {lockString: "EXT-RADIO_LOCK"})
     if (noti == "GW_READY" && sender.name == "Gateway") this.sendSocketNotification("INIT", this.config)
     if (!this.radioPlayer.ready) return
 
@@ -97,29 +98,12 @@ Module.register("EXT-RadioPlayer", {
 
   showRadio: function() {
     if (this.radioPlayer.img) {
-      if (this.radioPlayer.play) this.showDivWithAnimatedFlip("EXT_RADIO")
-      else this.hideDivWithAnimatedFlip("EXT_RADIO")
+      if (this.radioPlayer.play) this.show(1000, () => {}, {lockString: "EXT-RADIO_LOCK"})
+      else this.hide(1000, () => {}, {lockString: "EXT-RADIO_LOCK"})
     }
     if (this.radioPlayer.new) return
     if (this.radioPlayer.play) this.sendNotification("EXT_RADIO-CONNECTED")
     else this.sendNotification("EXT_RADIO-DISCONNECTED")
-  },
-
-  hideDivWithAnimatedFlip: function(div) {
-    var module = document.getElementById(div)
-    module.classList.remove("animate__flipInX")
-    module.classList.add("animate__flipOutX")
-    module.addEventListener('animationend', (e) => {
-      if (e.animationName == "flipOutX") module.classList.add("hidden")
-      e.stopPropagation()
-    }, {once: true})
-  },
-
-  showDivWithAnimatedFlip: function(div) {
-    var module = document.getElementById(div)
-    module.classList.remove("hidden")
-    module.classList.remove("animate__flipOutX")
-    module.classList.add("animate__flipInX")
   },
 
   /** Radio command (for recipe) **/
