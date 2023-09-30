@@ -31,7 +31,7 @@
   "homepage": "https://wiki.bugsounet.fr/en/EXT-RadioPlayer",
   "dependencies": {
     "@magicmirror2/cvlc": "^1.0.8",
-    "esbuild": "^0.19.3",
+    "esbuild": "^0.19.4",
     "glob": "^10.3.10"
   }
 }
