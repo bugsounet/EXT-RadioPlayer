@@ -46,7 +46,7 @@ module.exports = NodeHelper.create({
   playWithVlc: function (link) {
     this.RNumber++
     if (this.Radio) this.CloseVlc()
-    let cvlcArgs = ["--no-http-forward-cookies", "--play-and-exit", "--video-title=library @bugsounet/cvlc Radio Player"]
+    let cvlcArgs = ["--no-http-forward-cookies", "--video-title=library @bugsounet/cvlc Radio Player"]
     this.Radio = new this.lib.cvlc(cvlcArgs)
     this.Radio.play(
       link,
