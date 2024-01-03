@@ -48,7 +48,7 @@ Module.register("EXT-RadioPlayer", {
 
   notificationReceived: function(noti, payload, sender) {
     if (noti == "MODULE_DOM_CREATED") this.hide(0, () => {}, {lockString: "EXT-RADIO_LOCK"})
-    if (noti == "GW_READY" && sender.name == "Gateway") this.sendSocketNotification("INIT", this.config)
+    if (noti == "GA_READY" && sender.name == "MMM-GoogleAssistant") this.sendSocketNotification("INIT", this.config)
     if (!this.radioPlayer.ready) return
 
     switch(noti) {
