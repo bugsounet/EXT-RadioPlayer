@@ -37,7 +37,7 @@
   "dependencies": {
     "@magicmirror2/cvlc": "^1.0.8",
     "esbuild": "^0.20.2",
-    "glob": "^10.3.10"
+    "glob": "^10.3.12"
   },
   "devDependencies": {
     "@eslint/js": "^8.57.0",
