@@ -3,7 +3,7 @@
   font-size: 16px;
   height: auto;
   font-size: large;
-  display: flex;
+  display: inline-flex;
   line-height: 1.5em;
 }
 
@@ -38,7 +38,9 @@
   background-position: center center;
   filter: blur(16px) opacity(90%) grayscale(33%);
   position:absolute;
-  width:95%;
-  height:100px;
-  z-index:0;
+  width: 90%;
+  height: 90%;
+  top: 5%;
+  left: 5%;
+  z-index: 0;
 }
