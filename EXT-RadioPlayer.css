@@ -5,6 +5,7 @@
   font-size: large;
   line-height: 1.5em;
   display: inline-block;
+  position: relative;
 }
 
 #EXT_RADIO.hidden {
@@ -38,7 +39,9 @@
   background-position: center center;
   filter: blur(16px) opacity(90%) grayscale(33%);
   position: absolute;
-  width: -webkit-fill-available;
-  height: 100px;
+  top: 13%;
+  left: 13%;
+  width: 75%;
+  height: 75%;
   z-index: 0;
 }
