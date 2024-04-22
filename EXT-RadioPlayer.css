@@ -1,10 +1,10 @@
 #EXT_RADIO {
   min-width: 240px;
   font-size: 16px;
-  height: auto;
+  height: 100px;
   font-size: large;
-  display: inline-flex;
   line-height: 1.5em;
+  display: inline-block;
 }
 
 #EXT_RADIO.hidden {
@@ -37,10 +37,8 @@
   background-size: cover;
   background-position: center center;
   filter: blur(16px) opacity(90%) grayscale(33%);
-  position:absolute;
-  width: 90%;
-  height: 90%;
-  top: 5%;
-  left: 5%;
+  position: absolute;
+  width: -webkit-fill-available;
+  height: 100px;
   z-index: 0;
 }
