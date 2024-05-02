@@ -1,7 +1,7 @@
 {
   "name": "EXT-RadioPlayer",
-  "version": "1.4.2",
-  "rev": "240422",
+  "version": "1.5.0",
+  "rev": "240502",
   "description": "An embedded radio player on MagicMirror.",
   "main": "EXT-RadioPlayer.js",
   "scripts": {
@@ -35,7 +35,6 @@
   },
   "homepage": "https://wiki.bugsounet.fr/en/EXT-RadioPlayer",
   "dependencies": {
-    "@magicmirror2/cvlc": "^1.0.8",
     "esbuild": "^0.20.2",
     "glob": "^10.3.12",
     "vlc-client": "^1.1.1"
