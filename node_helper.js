@@ -64,6 +64,8 @@ module.exports = NodeHelper.create({
       }
     );
 
+    if (!status) return;
+
     if (status.state === "playing") {
       if (status.information.category.meta.filename !== this.radio.filename) {
         if (this.radio.is_playing) this.sendSocketNotification("FINISH");
