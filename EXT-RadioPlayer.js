@@ -21,8 +21,7 @@ Module.register("EXT-RadioPlayer", {
       ready: false,
       play: false,
       img: null,
-      link: null,
-      new: false
+      link: null
     };
   },
 
@@ -55,7 +54,6 @@ Module.register("EXT-RadioPlayer", {
       case "EXT_STOP":
       case "EXT_RADIO-STOP":
         if (this.radioPlayer.play) {
-          this.radioPlayer.new = false;
           this.sendSocketNotification("STOP");
         }
         break;
@@ -86,8 +84,7 @@ Module.register("EXT-RadioPlayer", {
         break;
       case "FINISH":
         this.radioPlayer.play = false;
-        if (this.radioPlayer.new) this.radioPlayer.new = false;
-        else this.showRadio();
+        this.showRadio();
         break;
       case "READY":
         this.radioPlayer.ready = true;
@@ -101,7 +98,6 @@ Module.register("EXT-RadioPlayer", {
       if (this.radioPlayer.play) this.show(1000, () => {}, { lockString: "EXT-RADIO_LOCK" });
       else this.hide(1000, () => {}, { lockString: "EXT-RADIO_LOCK" });
     }
-    if (this.radioPlayer.new) return;
     if (this.radioPlayer.play) this.sendNotification("EXT_RADIO-CONNECTED");
     else this.sendNotification("EXT_RADIO-DISCONNECTED");
   },
@@ -109,7 +105,6 @@ Module.register("EXT-RadioPlayer", {
   /** Radio command (for recipe) **/
   radioCommand (payload) {
     if (!this.radioPlayer.ready) return;
-    if (this.radioPlayer.play) this.radioPlayer.new = true;
     if (payload.link) {
       if (payload.img) {
         var radioImg = document.getElementById("EXT_RADIO_IMG");

@@ -1,6 +1,7 @@
 "use strict";
 
 var NodeHelper = require("node_helper");
+const VLC = require("vlc-client");
 
 var log = (...args) => { /* do nothing */ };
 
@@ -8,8 +9,13 @@ module.exports = NodeHelper.create({
   start () {
     this.config = {};
     this.Radio = null;
-    this.lib = [];
-    this.RNumber = 0;
+    this.vlc = null;
+    this.statusInterval = null;
+    this.radio = {
+      is_playing: false,
+      link: null,
+      filemame: null
+    };
   },
 
   socketNotificationReceived (noti, payload) {
@@ -33,90 +39,70 @@ module.exports = NodeHelper.create({
   async initialize () {
     if (this.config.debug) log = (...args) => { console.log("[RADIO]", ...args); };
     console.log("[RADIO] EXT-RadioPlayer Version:", require("./package.json").version, "rev:", require("./package.json").rev);
-    let bugsounet = await this.loadBugsounetLibrary();
-    if (bugsounet) {
-      console.error("[RADIO] Warning:", bugsounet, "library not loaded !");
-      console.error("[RADIO] Try to solve it with `npm install` in EXT-RadioPlayer directory");
-      return;
-    }
+    this.vlc = new VLC.Client({
+      ip: "127.0.0.1",
+      port: 8082,
+      password: "EXT-VLCServer",
+      log: this.config.debug
+    });
+    this.statusInterval = setInterval(() => this.status(), 1000);
     console.log("[RADIO] EXT-Radio is Ready.");
     this.sendSocketNotification("READY");
   },
 
-  /** radio with VLC **/
-  playWithVlc (link) {
-    this.RNumber++;
-    if (this.Radio) this.CloseVlc();
-    let cvlcArgs = ["--no-http-forward-cookies", "--video-title=library @bugsounet/cvlc Radio Player"];
-    this.Radio = new this.lib.cvlc(cvlcArgs);
-    this.Radio.play(
-      link,
-      ()=> {
-        log("Found link:", link);
-        if (this.Radio) {
-          this.Radio.cmd(`volume ${ this.config.maxVolume}`);
-          this.sendSocketNotification("PLAYING");
-        }
-      },
-      ()=> {
-        this.RNumber--;
-        if (this.RNumber < 0) this.RNumber = 0;
-        log(`Ended #${  this.RNumber}`);
-        if (this.RNumber === 0) {
-          log("Finish !");
-          this.sendSocketNotification("FINISH");
-          this.Radio = null;
+  async status () {
+    const status = await this.vlc.status().catch(
+      (err)=> {
+        if (err.code === "ECONNREFUSED" || err.message.includes("Unauthorized")) {
+          clearInterval(this.statusInterval);
+          console.error("[RADIO] Can't start VLC Client! Reason:", err.message);
+          this.sendSocketNotification("ERROR", `Can't start VLC Client! Reason: ${err.message}`);
+        } else {
+          console.error("[RADIO]", err.message);
+          this.sendSocketNotification("ERROR", `VLC Client error: ${err.message}`);
         }
       }
     );
+
+    if (status.state === "playing") {
+      if (status.information.category.meta.filename !== this.radio.filename) {
+        if (this.radio.is_playing) this.sendSocketNotification("FINISH");
+        this.radio.is_playing = false;
+        log("Not played by EXT-MusicPlayer");
+        return;
+      }
+      if (!this.radio.is_playing) this.sendSocketNotification("PLAYING");
+      this.radio.is_playing = true;
+      log("Playing");
+    }
+    if (status.state === "stopped") {
+      if (this.radio.is_playing) this.sendSocketNotification("FINISH");
+      this.radio.is_playing = false;
+      log("Stopped");
+    }
+  },
+
+  /** radio with VLC **/
+  async playWithVlc (link) {
+    this.radio.link = link;
+    this.radio.filename = this.radio.link?.split("/").pop();
+
+    await this.vlc.stop();
+    await this.vlc.setVolumeRaw(this.config.maxVolume);
+    await this.vlc.playFile(link, { novideo: true, wait: true, timeout: 300 });
   },
 
   CloseVlc () {
-    if (this.Radio) {
-      log("Force Closing VLC...");
-      this.Radio.destroy();
-      this.Radio = null;
-      log("Done Closing VLC...");
+    if (this.radio.is_playing) {
+      log("Stop");
+      this.vlc.stop();
     }
-    else log("Not running!");
   },
 
   VolumeVLC (volume) {
-    if (this.Radio) {
-      log("Set VLC Volume to:", volume);
-      this.Radio.cmd(`volume ${  volume}`);
+    if (this.radio.is_playing) {
+      log(`Set Volume ${volume}`);
+      this.vlc.setVolumeRaw(volume);
     }
-  },
-
-  /** Load require @busgounet library **/
-  /** It will not crash MM (black screen) **/
-  loadBugsounetLibrary () {
-    let libraries= [
-      // { "library to load" : "store library name" ] }
-      { "@magicmirror2/cvlc": "cvlc" }
-    ];
-
-    let errors = 0;
-    return new Promise((resolve) => {
-      libraries.forEach((library) => {
-        for (const [name, configValues] of Object.entries(library)) {
-          let libraryToLoad = name;
-          let libraryName = configValues;
-
-          try {
-            if (!this.lib[libraryName]) {
-              this.lib[libraryName] = require(libraryToLoad);
-              log("Loaded:", libraryToLoad, "->", `this.lib.${libraryName}`);
-            }
-          } catch (e) {
-            console.error("[RADIO]", libraryToLoad, "Loading error!" , e.toString());
-            this.sendSocketNotification("WARNING" , { library: libraryToLoad });
-            errors++;
-          }
-        }
-      });
-      resolve(errors);
-      if (!errors) console.log("[RADIO] All libraries loaded!");
-    });
   }
 });
