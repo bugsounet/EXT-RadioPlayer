@@ -23,6 +23,7 @@ Module.register("EXT-RadioPlayer", {
       img: null,
       link: null
     };
+    this.canStop = true;
   },
 
   getStyles () {
@@ -52,9 +53,12 @@ Module.register("EXT-RadioPlayer", {
     if (!this.radioPlayer.ready) return;
 
     switch(noti) {
+      case "EXT_VLCServer-WILL_PLAYING":
+        this.canStop = false;
+        break;
       case "EXT_STOP":
       case "EXT_RADIO-STOP":
-        if (this.radioPlayer.play) {
+        if (this.radioPlayer.play && this.canStop) {
           this.sendSocketNotification("STOP");
         }
         break;
@@ -91,6 +95,9 @@ Module.register("EXT-RadioPlayer", {
         this.radioPlayer.ready = true;
         this.sendNotification("EXT_HELLO", this.name);
         break;
+      case "WILL_PLAYING":
+        this.sendNotification("EXT_VLCServer-WILL_PLAYING");
+        break;
     }
   },
 
@@ -100,7 +107,10 @@ Module.register("EXT-RadioPlayer", {
       else this.hide(1000, () => {}, { lockString: "EXT-RADIO_LOCK" });
     }
     if (this.radioPlayer.play) this.sendNotification("EXT_RADIO-CONNECTED");
-    else this.sendNotification("EXT_RADIO-DISCONNECTED");
+    else {
+      this.sendNotification("EXT_RADIO-DISCONNECTED");
+      this.canStop = true;
+    }
   },
 
   /** Radio command (for recipe) **/

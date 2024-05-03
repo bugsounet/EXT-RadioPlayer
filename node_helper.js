@@ -102,6 +102,7 @@ module.exports = NodeHelper.create({
 
   /** radio with VLC **/
   async playWithVlc (link) {
+    this.sendSocketNotification("WILL_PLAYING");
     this.radio.link = link;
     this.radio.filename = this.radio.link?.split("/").pop();
 
