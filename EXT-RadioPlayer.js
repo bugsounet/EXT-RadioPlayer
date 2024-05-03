@@ -71,10 +71,10 @@ Module.register("EXT-RadioPlayer", {
 
   socketNotificationReceived (noti, payload) {
     switch(noti) {
-      case "WARNING": // EXT-Alert is unlocked for receive all alerts
+      case "ERROR": // EXT-Alert is unlocked for receive all alerts
         this.sendNotification("EXT_ALERT", {
-          type: "warning",
-          message: `Error When Loading: ${  payload.library  }. Try to solve it with \`npm install\` in EXT-RadioPlayer directory`,
+          type: "error",
+          message: payload,
           timer: 10000
         });
         break;
