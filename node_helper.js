@@ -70,10 +70,14 @@ module.exports = NodeHelper.create({
       if (status.information.category.meta.filename !== this.radio.filename) {
         if (this.radio.is_playing) this.sendSocketNotification("FINISH");
         this.radio.is_playing = false;
-        log("Not played by EXT-MusicPlayer");
+        log("Not played by EXT-RadioPlayer");
         return;
       }
-      if (!this.radio.is_playing) this.sendSocketNotification("PLAYING");
+      if (!this.radio.is_playing) {
+        log("Set volume to", this.config.maxVolume)
+        await this.vlc.setVolumeRaw(this.config.maxVolume);
+        this.sendSocketNotification("PLAYING");
+      }
       this.radio.is_playing = true;
       log("Playing");
     }
@@ -89,8 +93,6 @@ module.exports = NodeHelper.create({
     this.radio.link = link;
     this.radio.filename = this.radio.link?.split("/").pop();
 
-    await this.vlc.stop();
-    await this.vlc.setVolumeRaw(this.config.maxVolume);
     await this.vlc.playFile(link, { novideo: true, wait: true, timeout: 300 });
   },
 
