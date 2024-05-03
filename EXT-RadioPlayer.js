@@ -48,6 +48,7 @@ Module.register("EXT-RadioPlayer", {
   notificationReceived (noti, payload, sender) {
     if (noti === "MODULE_DOM_CREATED") this.hide(0, () => {}, { lockString: "EXT-RADIO_LOCK" });
     if (noti === "GA_READY" && sender.name === "MMM-GoogleAssistant") this.sendSocketNotification("INIT", this.config);
+    if (noti === "EXT_VLCSERVER-START") this.sendSocketNotification("START");
     if (!this.radioPlayer.ready) return;
 
     switch(noti) {

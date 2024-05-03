@@ -25,6 +25,9 @@ module.exports = NodeHelper.create({
         this.config = payload;
         this.initialize();
         break;
+      case "START":
+        this.startRadio();
+        break;
       case "PLAY":
         this.playWithVlc(payload);
         break;
@@ -37,9 +40,13 @@ module.exports = NodeHelper.create({
     }
   },
 
-  async initialize () {
+  initialize () {
     if (this.config.debug) log = (...args) => { console.log("[RADIO]", ...args); };
     console.log("[RADIO] EXT-RadioPlayer Version:", require("./package.json").version, "rev:", require("./package.json").rev);
+  },
+
+  startRadio () {
+    console.log("[RADIO] Starting Radio module...");
     this.vlc = new VLC.Client({
       ip: "127.0.0.1",
       port: 8082,
