@@ -74,7 +74,7 @@ module.exports = NodeHelper.create({
         return;
       }
       if (!this.radio.is_playing) {
-        log("Set volume to", this.config.maxVolume)
+        log("Set volume to", this.config.maxVolume);
         await this.vlc.setVolumeRaw(this.config.maxVolume);
         this.sendSocketNotification("PLAYING");
       }
