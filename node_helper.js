@@ -53,9 +53,13 @@ module.exports = NodeHelper.create({
       password: "EXT-VLCServer",
       log: this.config.debug
     });
-    this.statusInterval = setInterval(() => this.status(), 1000);
     console.log("[RADIO] EXT-Radio is Ready.");
     this.sendSocketNotification("READY");
+  },
+
+  pulse () {
+    log("Launch pulse");
+    this.statusInterval = setInterval(() => this.status(), 1000);
   },
 
   async status () {
@@ -83,6 +87,7 @@ module.exports = NodeHelper.create({
         if (this.radio.is_playing) this.sendSocketNotification("FINISH");
         this.radio.is_playing = false;
         log("Not played by EXT-RadioPlayer");
+        clearTimeout(this.statusInterval);
         return;
       }
       if (!this.radio.is_playing) {
@@ -97,16 +102,19 @@ module.exports = NodeHelper.create({
       if (this.radio.is_playing) this.sendSocketNotification("FINISH");
       this.radio.is_playing = false;
       log("Stopped");
+      clearTimeout(this.statusInterval);
     }
   },
 
   /** radio with VLC **/
   async playWithVlc (link) {
+    clearTimeout(this.statusInterval);
     this.sendSocketNotification("WILL_PLAYING");
     this.radio.link = link;
     this.radio.filename = this.radio.link?.split("/").pop();
 
     await this.vlc.playFile(link, { novideo: true, wait: true, timeout: 300 });
+    this.pulse();
   },
 
   CloseVlc () {
