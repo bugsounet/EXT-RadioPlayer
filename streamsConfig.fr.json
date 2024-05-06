@@ -1,0 +1,62 @@
+{
+  "Chérie FM": {
+    "img": "modules/EXT-RadioPlayer/Logos/FR/ChérieFM.png",
+    "link": "https://scdn.nrjaudio.fm/fr/30201/mp3_128.mp3?origine=EXT-RadioPlayer&cdn_path=audio_lbs9"
+  },
+  "RTL": {
+    "img": "modules/EXT-RadioPlayer/Logos/FR/RTL.png",
+    "link": "http://streaming.radio.rtl.fr/rtl-1-44-128"
+  },
+  "Rire et chansons": {
+    "img": "modules/EXT-RadioPlayer/Logos/FR/Rire&Chansons.png",
+    "link": "https://scdn.nrjaudio.fm/audio1/fr/30401/mp3_128.mp3"
+  },
+  "RTL2": {
+    "img": "modules/EXT-RadioPlayer/Logos/FR/RTL2.png",
+    "link": "http://streaming.radio.rtl2.fr/rtl2-1-44-128"
+  },
+  "FunRadio": {
+    "img": "modules/EXT-RadioPlayer/Logos/FR/FunRadio.png",
+    "link": "http://streaming.radio.funradio.fr:80/fun-1-44-128"
+  },
+  "Europe1": {
+    "img": "modules/EXT-RadioPlayer/Logos/FR/Europe1.png",
+    "link": "http://ais-live.cloud-services.paris:8000/europe1.mp3"
+  },
+  "RFM": {
+    "img": "modules/EXT-RadioPlayer/Logos/FR/RFM.png",
+    "link": "https://ais-live.cloud-services.paris:8443/rfm.mp3"
+  },
+  "RMC": {
+    "img": "modules/EXT-RadioPlayer/Logos/FR/RMC.svg",
+    "link": "http://chai5she.cdn.dvmr.fr/rmcinfo"
+  },
+  "NRJ": {
+    "img": "modules/EXT-RadioPlayer/Logos/FR/NRJ.png",
+    "link": "https://scdn.nrjaudio.fm/audio1/fr/30001/mp3_128.mp3"
+  },
+  "Nostalgie": {
+    "img": "modules/EXT-RadioPlayer/Logos/FR/Nostalgie.png",
+    "link": "http://185.52.127.155/fr/40045/aac_64.mp3?origine=EXT-RadioPlayer"
+  },
+  "Contact FM": {
+    "img": "modules/EXT-RadioPlayer/Logos/FR/contact.png",
+    "link": "http://radio-contact.ice.infomaniak.ch/radio-contact-high.mp3"
+  },
+  "Voltage": {
+    "img": "modules/EXT-RadioPlayer/Logos/FR/voltage.png",
+    "link": "http://start-voltage.ice.infomaniak.ch/start-voltage-high.mp3"
+  },
+  "Skyrock": {
+    "img": "modules/EXT-RadioPlayer/Logos/FR/Skyrock.png",
+    "link": "http://icecast.skyrock.net/s/natio_mp3_128k"
+  },
+  "Radio FG": {
+    "img": "modules/EXT-RadioPlayer/Logos/FR/fg.png",
+    "link": "http://radiofg.impek.com/fg"
+  },
+  "France Inter": {
+    "img": "modules/EXT-RadioPlayer/Logos/FR/FranceInter.png",
+    "link": "http://direct.franceinter.fr/live/franceinter-midfi.mp3"
+  }
+}

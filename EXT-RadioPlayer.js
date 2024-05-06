@@ -11,17 +11,20 @@ Module.register("EXT-RadioPlayer", {
   defaults: {
     debug: false,
     minVolume: 30,
-    maxVolume: 75
+    maxVolume: 75,
+    streams: "streamsConfig.json"
   },
 
   start () {
-    this.radio = null;
+    this.Radio = {};
+    this.Channels = [];
     this.initializeMusicVolumeVLC();
     this.radioPlayer= {
       ready: false,
       play: false,
       img: null,
-      link: null
+      link: null,
+      last: 9999
     };
     this.canStop = true;
   },
@@ -62,6 +65,15 @@ Module.register("EXT-RadioPlayer", {
           this.sendSocketNotification("STOP");
         }
         break;
+      case "EXT_RADIO-PLAY":
+        this.playStream(payload ? payload : this.Channels[0]);
+        break;
+      case "EXT_RADIO-NEXT":
+        this.playNextStream();
+        break;
+      case "EXT_RADIO-PREVIOUS":
+        this.playPreviousStream();
+        break;
       case "EXT_RADIO-VOLUME_MIN":
         if (this.radioPlayer.play) this.sendSocketNotification("VOLUME", this.config.minVolume);
         break;
@@ -92,6 +104,24 @@ Module.register("EXT-RadioPlayer", {
         this.showRadio();
         break;
       case "READY":
+        this.Radio = payload;
+        this.Channels = Object.keys(this.Radio);
+        var iterifyArr = function (arr) {
+          arr.next = (current) => {
+            var next = current;
+            next = next + 1;
+            if (next >= arr.length) return arr[0];
+            return arr[next];
+          };
+          arr.prev = (current) => {
+            var previous = current;
+            previous = previous - 1;
+            if (previous < 0) return arr[arr.length-1];
+            return arr[previous];
+          };
+          return arr;
+        };
+        iterifyArr(this.Channels);
         this.radioPlayer.ready = true;
         this.sendNotification("EXT_HELLO", this.name);
         break;
@@ -113,17 +143,28 @@ Module.register("EXT-RadioPlayer", {
     }
   },
 
-  /** Radio command (for recipe) **/
+  /** Radio command **/
   radioCommand (payload) {
     if (!this.radioPlayer.ready) return;
     if (payload.link) {
+      var radioImg = document.getElementById("EXT_RADIO_IMG");
+      var backGround = document.getElementById("EXT_RADIO_BACKGROUND");
       if (payload.img) {
-        var radioImg = document.getElementById("EXT_RADIO_IMG");
-        var backGround = document.getElementById("EXT_RADIO_BACKGROUND");
         this.radioPlayer.img = payload.img;
-        radioImg.src = this.radioPlayer.img;
-        backGround.style.backgroundImage = `url(${payload.img})`;
+      } else {
+        this.radioPlayer.img = "modules/EXT-RadioPlayer/Logos/radio.jpg";
       }
+
+      backGround.classList.remove("WipeEnter");
+      let backOffSet = backGround.offsetWidth;
+      backGround.classList.add("WipeEnter");
+      backGround.style.backgroundImage = `url(${this.radioPlayer.img})`;
+
+      radioImg.classList.remove("WipeEnter");
+      let OffSet = radioImg.offsetWidth;
+      radioImg.classList.add("WipeEnter");
+      radioImg.src = this.radioPlayer.img;
+
       this.radioPlayer.link = payload.link;
       this.sendSocketNotification("PLAY", payload.link);
     }
@@ -162,5 +203,94 @@ Module.register("EXT-RadioPlayer", {
   /** Convert percent to cvlc value **/
   convertPercentToValue (percent) {
     return parseInt(((percent*256)/100).toFixed(0));
+  },
+
+  playNextStream () {
+    let last = this.radioPlayer.last;
+    let channel = this.Channels.next(last);
+    if (!channel) channel = this.Channels[0];
+    this.playStream(channel);
+  },
+
+  playPreviousStream () {
+    let last = this.radioPlayer.last;
+    let channel = this.Channels.prev(last);
+    if (!channel) channel = this.Channels[this.Channels.length-1];
+    this.playStream(channel);
+  },
+
+  playStream (channel) {
+    if (!this.ChannelsCheck(channel)) return console.log("[RADIO] channel not found", channel);
+    this.radioCommand(this.Radio[channel]);
+    this.radioPlayer.last = this.Channels.indexOf(channel);
+  },
+
+  ChannelsCheck (channel) {
+    if (this.Channels.indexOf(channel) > -1) return true;
+    return false;
+  },
+
+  /** Telegram Addon **/
+  EXT_TELBOTCommands (commander) {
+    commander.add({
+      command: "Radio",
+      description: "Play Radio.",
+      callback: "tb_RadioPlay"
+    });
+    commander.add({
+      command: "RadioNext",
+      description: "Play Next Radio.",
+      callback: "tb_RadioNext"
+    });
+    commander.add({
+      command: "RadioPrevious",
+      description: "Play Previous Radio.",
+      callback: "tb_RadioPrevious"
+    });
+  },
+
+  tb_RadioPlay (command, handler) {
+    if (!this.Channels.length) {
+      handler.reply("TEXT", "No streams file defined");
+      return;
+    }
+    if (handler.args) {
+      if (this.ChannelsCheck(handler.args)) {
+        this.playStream(handler.args);
+        handler.reply("TEXT", `Playing: ${handler.args}`);
+      } else {
+        handler.reply("TEXT", `Radio not found: ${handler.args}`);
+      }
+    } else {
+      if (this.radioPlayer.last === 9999) {
+        this.playStream(this.Channels[0]);
+        handler.reply("TEXT", `Playing: ${this.Channels[0]}`);
+      } else {
+        this.playStream(this.Channels[this.radioPlayer.last]);
+        handler.reply("TEXT", `Playing: ${this.Channels[this.radioPlayer.last]}`);
+      }
+    }
+  },
+
+  tb_RadioNext (command, handler) {
+    if (!this.Channels.length) {
+      handler.reply("TEXT", "No streams file defined");
+      return;
+    }
+    let channel = this.Channels.next(this.radioPlayer.last);
+    if (!channel) channel = this.Channels[0];
+    this.playStream(channel);
+    handler.reply("TEXT", `Playing: ${channel}`);
+  },
+
+  tb_RadioPrevious (command, handler) {
+    if (!this.Channels.length) {
+      handler.reply("TEXT", "No streams file defined");
+      return;
+    }
+    let channel = this.Channels.prev(this.radioPlayer.last);
+    if (!channel) channel = this.Channels[this.Channels.length-1];
+    this.playStream(channel);
+    handler.reply("TEXT", `Playing: ${channel}`);
   }
 });
