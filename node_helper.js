@@ -87,6 +87,7 @@ module.exports = NodeHelper.create({
     else this.warn = 0;
 
     if (status.state === "playing") {
+      //console.log("---> Meta", status.information.category.meta)
       if (status.information.category.meta.filename !== this.radio.filename) {
         if (this.radio.is_playing) this.sendSocketNotification("FINISH");
         this.radio.is_playing = false;
@@ -144,14 +145,18 @@ module.exports = NodeHelper.create({
         let streams = JSON.parse(fs.readFileSync(file));
         Object.keys(streams).forEach((key) => {
           if (streams[key].link) {
-            this.Radio[key] = {};
-            this.Radio[key].link = streams[key].link;
-            if (streams[key].img) {
-              this.Radio[key].img = streams[key].img;
+            if (streams[key].link.endsWith(".m3u")) {
+              console.warn("[RADIO] Ignore .m3u link for:", key);
             } else {
-              console.warn("[RADIO] No img found for:", key);
+              this.Radio[key] = {};
+              this.Radio[key].link = streams[key].link;
+              if (streams[key].img) {
+                this.Radio[key].img = streams[key].img;
+              } else {
+                console.warn("[RADIO] No img found for:", key);
+              }
+              log("[RADIO] Add:", key);
             }
-            log("[RADIO] Add:", key);
           } else {
             console.warn("[RADIO] No link found for:", key);
           }
