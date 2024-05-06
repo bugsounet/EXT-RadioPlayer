@@ -21,15 +21,15 @@
   },
   "Europe1": {
     "img": "modules/EXT-RadioPlayer/Logos/FR/Europe1.png",
-    "link": "http://ais-live.cloud-services.paris:8000/europe1.mp3"
+    "http://stream.europe1.fr/europe1.mp3"
   },
   "RFM": {
     "img": "modules/EXT-RadioPlayer/Logos/FR/RFM.png",
-    "link": "https://ais-live.cloud-services.paris:8443/rfm.mp3"
+    "link": "http://stream.rfm.fr/rfm.mp3"
   },
   "RMC": {
     "img": "modules/EXT-RadioPlayer/Logos/FR/RMC.svg",
-    "link": "http://chai5she.cdn.dvmr.fr/rmcinfo"
+    "link": "http://audio.bfmtv.com/rmcradio_128.mp3"
   },
   "NRJ": {
     "img": "modules/EXT-RadioPlayer/Logos/FR/NRJ.png",
@@ -41,7 +41,7 @@
   },
   "Contact FM": {
     "img": "modules/EXT-RadioPlayer/Logos/FR/contact.png",
-    "link": "http://radio-contact.ice.infomaniak.ch/radio-contact-high.mp3"
+    "link": "http://radiocontact.ice.infomaniak.ch/radiocontact-mp3-192.mp3"
   },
   "Voltage": {
     "img": "modules/EXT-RadioPlayer/Logos/FR/voltage.png",
