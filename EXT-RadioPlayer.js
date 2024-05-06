@@ -72,7 +72,7 @@ Module.register("EXT-RadioPlayer", {
         this.playNextStream();
         break;
       case "EXT_RADIO-PREVIOUS":
-        this.playPreviousStream()
+        this.playPreviousStream();
         break;
       case "EXT_RADIO-VOLUME_MIN":
         if (this.radioPlayer.play) this.sendSocketNotification("VOLUME", this.config.minVolume);
@@ -104,7 +104,7 @@ Module.register("EXT-RadioPlayer", {
         this.showRadio();
         break;
       case "READY":
-        this.Radio = payload
+        this.Radio = payload;
         this.Channels = Object.keys(this.Radio);
         var iterifyArr = function (arr) {
           arr.next = (current) => {
@@ -251,8 +251,8 @@ Module.register("EXT-RadioPlayer", {
 
   tb_RadioPlay (command, handler) {
     if (!this.Channels.length) {
-      handler.reply("TEXT", `No streams file defined`);
-      return
+      handler.reply("TEXT", "No streams file defined");
+      return;
     }
     if (handler.args) {
       if (this.ChannelsCheck(handler.args)) {
@@ -274,8 +274,8 @@ Module.register("EXT-RadioPlayer", {
 
   tb_RadioNext (command, handler) {
     if (!this.Channels.length) {
-      handler.reply("TEXT", `No streams file defined`);
-      return
+      handler.reply("TEXT", "No streams file defined");
+      return;
     }
     let channel = this.Channels.next(this.radioPlayer.last);
     if (!channel) channel = this.Channels[0];
@@ -285,12 +285,12 @@ Module.register("EXT-RadioPlayer", {
 
   tb_RadioPrevious (command, handler) {
     if (!this.Channels.length) {
-      handler.reply("TEXT", `No streams file defined`);
-      return
+      handler.reply("TEXT", "No streams file defined");
+      return;
     }
     let channel = this.Channels.prev(this.radioPlayer.last);
     if (!channel) channel = this.Channels[this.Channels.length-1];
     this.playStream(channel);
     handler.reply("TEXT", `Playing: ${channel}`);
-  },
+  }
 });

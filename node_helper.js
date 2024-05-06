@@ -136,26 +136,26 @@ module.exports = NodeHelper.create({
   },
 
   scanStreamsConfig () {
-    if (!this.config.streams) return console.warn("[RADIO] No Streams File found")
+    if (!this.config.streams) return console.warn("[RADIO] No Streams File found");
     console.log("[RADIO] Reading Streams file:", this.config.streams);
     let file = path.resolve(__dirname, this.config.streams);
     if (fs.existsSync(file)) {
       try {
         let streams = JSON.parse(fs.readFileSync(file));
-        Object.keys(streams).forEach(key => {
+        Object.keys(streams).forEach((key) => {
           if (streams[key].link) {
-            this.Radio[key] = {}
-            this.Radio[key].link = streams[key].link
+            this.Radio[key] = {};
+            this.Radio[key].link = streams[key].link;
             if (streams[key].img) {
-              this.Radio[key].img = streams[key].img
+              this.Radio[key].img = streams[key].img;
             } else {
-              console.warn("[RADIO] No img found for:", key)
+              console.warn("[RADIO] No img found for:", key);
             }
-            console.log("[RADIO] Add:", key)
+            log("[RADIO] Add:", key);
           } else {
-            console.warn("[RADIO] No link found for:", key)
+            console.warn("[RADIO] No link found for:", key);
           }
-        })
+        });
         console.log("[RADIO] Number of radio found:", Object.keys(this.Radio).length);
       } catch (e) {
         return console.error(`[RADIO] ERROR: ${this.config.streams}:`, e.message);
