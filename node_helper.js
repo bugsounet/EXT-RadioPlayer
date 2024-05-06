@@ -1,5 +1,7 @@
 "use strict";
 
+const fs = require("node:fs");
+const path = require("node:path");
 var NodeHelper = require("node_helper");
 const VLC = require("vlc-client");
 
@@ -8,7 +10,8 @@ var log = (...args) => { /* do nothing */ };
 module.exports = NodeHelper.create({
   start () {
     this.config = {};
-    this.Radio = null;
+    this.Radio = {};
+    this.Channels = {};
     this.vlc = null;
     this.statusInterval = null;
     this.warn = 0;
@@ -43,6 +46,7 @@ module.exports = NodeHelper.create({
   initialize () {
     if (this.config.debug) log = (...args) => { console.log("[RADIO]", ...args); };
     console.log("[RADIO] EXT-RadioPlayer Version:", require("./package.json").version, "rev:", require("./package.json").rev);
+    this.scanStreamsConfig();
   },
 
   startRadio () {
@@ -54,7 +58,7 @@ module.exports = NodeHelper.create({
       log: this.config.debug
     });
     console.log("[RADIO] EXT-Radio is Ready.");
-    this.sendSocketNotification("READY");
+    this.sendSocketNotification("READY", this.Radio);
   },
 
   pulse () {
@@ -129,5 +133,33 @@ module.exports = NodeHelper.create({
       log(`Set Volume ${volume}`);
       this.vlc.setVolumeRaw(volume);
     }
+  },
+
+  scanStreamsConfig () {
+    if (!this.config.streams) return console.warn("[RADIO] No Streams File found")
+    console.log("[RADIO] Reading Streams file:", this.config.streams);
+    let file = path.resolve(__dirname, this.config.streams);
+    if (fs.existsSync(file)) {
+      try {
+        let streams = JSON.parse(fs.readFileSync(file));
+        Object.keys(streams).forEach(key => {
+          if (streams[key].link) {
+            this.Radio[key] = {}
+            this.Radio[key].link = streams[key].link
+            if (streams[key].img) {
+              this.Radio[key].img = streams[key].img
+            } else {
+              console.warn("[RADIO] No img found for:", key)
+            }
+            console.log("[RADIO] Add:", key)
+          } else {
+            console.warn("[RADIO] No link found for:", key)
+          }
+        })
+        console.log("[RADIO] Number of radio found:", Object.keys(this.Radio).length);
+      } catch (e) {
+        return console.error(`[RADIO] ERROR: ${this.config.streams}:`, e.message);
+      }
+    } else console.error(`[RADIO] ERROR: missing ${this.config.streams} configuration file!`);
   }
 });

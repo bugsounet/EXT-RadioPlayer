@@ -45,3 +45,18 @@
   height: 75%;
   z-index: 0;
 }
+
+#EXT_RADIO_IMG.WipeEnter,
+#EXT_RADIO_BACKGROUND.WipeEnter {
+  animation: RadioWipeEnter 1s 1;
+}
+
+@keyframes RadioWipeEnter {
+  0% {
+    transform: scale(0, .01);
+  }
+  50% {
+    transform: scale(1, .01);
+  }
+}
+
