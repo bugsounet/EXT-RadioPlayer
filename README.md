@@ -1,8 +1,9 @@
 # EXT-RadioPlayer
 
-This allows to play radio station on MagicMirror
+This allows to play radio station on MagicMirror²
 
-This module is an Extented plugins for `MMM-GoogleAssistant`
+ * This module is an Extented plugins for `MMM-GoogleAssistant`
+ * This module need `EXT-VLCServer` for playing any streams link
 
 ## Installation / update / configuration
 
