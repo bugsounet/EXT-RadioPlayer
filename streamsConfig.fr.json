@@ -1,7 +1,7 @@
 {
   "Chérie FM": {
     "img": "https://static.mytuner.mobi/media/radios-150px/kxvWVQdPM5.png",
-    "link": "https://scdn.nrjaudio.fm/fr/30201/mp3_128.mp3?origine=EXT-RadioPlayer&cdn_path=audio_lbs9"
+    "link": "https://scdn.nrjaudio.fm/adwz2/fr/30201/mp3_128.mp3"
   },
   "RTL": {
     "img": "https://static.mytuner.mobi/media/radios-150px/J83ajRTKe4.png",
@@ -22,6 +22,10 @@
   "Europe1": {
     "img": "https://static.mytuner.mobi/media/radios-150px/WjXsTrcYrN.png",
     "link": "http://stream.europe1.fr/europe1.mp3"
+  },
+  "Europe2": {
+    "link": "http://europe2.lmn.fm/europe2.mp3",
+    "img": "https://static2.mytuner.mobi/media/tvos_radios/cnDUxBvPJ4.jpg"
   },
   "RFM": {
     "img": "https://static.mytuner.mobi/media/tvos_radios/smLqE2ydsh.png",
@@ -58,5 +62,25 @@
   "France Inter": {
     "img": "https://static.mytuner.mobi/media/radios-150px/J5XvQkPZCa.png",
     "link": "http://direct.franceinter.fr/live/franceinter-midfi.mp3"
+  },
+  "France Info": {
+    "link": "http://icecast.radiofrance.fr/franceinfo-hifi.aac",
+    "img": "https://static2.mytuner.mobi/media/tvos_radios/zSVGtdWTWe.png"
+  },
+  "Sud Radio": {
+    "link": "http://ice.creacast.com/sudradio",
+    "img": "https://static2.mytuner.mobi/media/tvos_radios/uRu8psbf9N.png"
+  },
+  "Atomic Radio": {
+    "link": "http://radios.topymedia.com:8032/;",
+    "img": "https://static2.mytuner.mobi/media/tvos_radios/tfkaqvenuzkq.png"
+  },
+  "Hit West": {
+    "link": "http://hitwest-angers.ice.infomaniak.ch/hitwest-angers-128.mp3",
+    "img": "https://static2.mytuner.mobi/media/tvos_radios/BduT3TKSmx.jpg"
+  },
+  "Fugi FM": {
+    "link": "http://92.175.228.15:8000/stream.mp3",
+    "img": "https://static2.mytuner.mobi/media/tvos_radios/EP5a6W8QdS.png"
   }
 }
