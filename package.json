@@ -1,7 +1,7 @@
 {
   "name": "EXT-RadioPlayer",
-  "version": "1.5.0",
-  "rev": "240504",
+  "version": "2.0.0",
+  "rev": "240507",
   "description": "An embedded radio player on MagicMirror.",
   "main": "EXT-RadioPlayer.js",
   "scripts": {
