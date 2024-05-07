@@ -187,7 +187,6 @@ module.exports = NodeHelper.create({
       } catch (e) {
         console.error(`[RADIO] ERROR: ${this.config.streams}: ${e.message}`);
         this.sendSocketNotification("ERROR", `Error on streams file: ${this.config.streams}`);
-
       }
     } else {
       console.error(`[RADIO] ERROR: missing ${this.config.streams} configuration file!`);
