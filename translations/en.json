@@ -1,3 +1,9 @@
 {
-  "NO_INFORMATIONS" : "No informations available."
+  "NO_INFORMATIONS" : "No informations available.",
+  "NO_STREAMS_FILE": "No streams file defined.",
+  "PLAY_RADIO": "Play radio.",
+  "PLAY_NEXT_RADIO": "Play next radio.",
+  "PLAY_PREVIOUS_RADIO": "Play previous radio.",
+  "RADIO_PLAYING": "Playing: {VALUES}",
+  "RADIO_NOT_FOUND": "Radio not found: {VALUES}"
 }

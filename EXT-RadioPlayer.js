@@ -59,7 +59,7 @@ Module.register("EXT-RadioPlayer", {
     radioLogo = document.createElement("img");
     radioLogo.id = "EXT_RADIO-RadioLogo";
     radioLogo.src = this.file("Logos/radio.jpg");
-    radioLogo.addEventListener("error", () => { radioLogo.src = this.file("Logos/radio.jpg"); }, false);
+    radioLogo.addEventListener("error", () => { radioLogo.src = this.file("radio.jpg"); }, false);
     radioLogoContainer.appendChild(radioLogo);
     radio.appendChild(radioInformationContainer);
 
@@ -191,7 +191,7 @@ Module.register("EXT-RadioPlayer", {
       if (payload.img) {
         this.radioPlayer.img = payload.img;
       } else {
-        this.radioPlayer.img = "modules/EXT-RadioPlayer/Logos/radio.jpg";
+        this.radioPlayer.img = this.file("radio.jpg");
       }
 
       var radioImg = document.getElementById("EXT_RADIO-RadioLogo");
@@ -289,63 +289,63 @@ Module.register("EXT-RadioPlayer", {
   EXT_TELBOTCommands (commander) {
     commander.add({
       command: "Radio",
-      description: "Play Radio.",
+      description: this.translate("PLAY_RADIO"),
       callback: "tb_RadioPlay"
     });
     commander.add({
       command: "RadioNext",
-      description: "Play Next Radio.",
+      description: this.translate("PLAY_NEXT_RADIO"),
       callback: "tb_RadioNext"
     });
     commander.add({
       command: "RadioPrevious",
-      description: "Play Previous Radio.",
+      description: this.translate("PLAY_PREVIOUS_RADIO"),
       callback: "tb_RadioPrevious"
     });
   },
 
   tb_RadioPlay (command, handler) {
     if (!this.Channels.length) {
-      handler.reply("TEXT", "No streams file defined");
+      handler.reply("TEXT", this.translate("NO_STREAMS_FILE"));
       return;
     }
     if (handler.args) {
       if (this.ChannelsCheck(handler.args)) {
         this.playStream(handler.args);
-        handler.reply("TEXT", `Playing: ${handler.args}`);
+        handler.reply("TEXT", this.translate("RADIO_PLAYING", { VALUES: handler.args }));
       } else {
-        handler.reply("TEXT", `Radio not found: ${handler.args}`);
+        handler.reply("TEXT", this.translate("RADIO_NOT_FOUND", { VALUES: handler.args }));
       }
     } else {
       if (this.radioPlayer.last === 9999) {
         this.playStream(this.Channels[0]);
-        handler.reply("TEXT", `Playing: ${this.Channels[0]}`);
+        handler.reply("TEXT", this.translate("RADIO_PLAYING", { VALUES: this.Channels[0] }));
       } else {
         this.playStream(this.Channels[this.radioPlayer.last]);
-        handler.reply("TEXT", `Playing: ${this.Channels[this.radioPlayer.last]}`);
+        handler.reply("TEXT", this.translate("RADIO_PLAYING", { VALUES: this.Channels[this.radioPlayer.last] }));
       }
     }
   },
 
   tb_RadioNext (command, handler) {
     if (!this.Channels.length) {
-      handler.reply("TEXT", "No streams file defined");
+      handler.reply("TEXT", this.translate("NO_STREAMS_FILE"));
       return;
     }
     let channel = this.Channels.next(this.radioPlayer.last);
     if (!channel) channel = this.Channels[0];
     this.playStream(channel);
-    handler.reply("TEXT", `Playing: ${channel}`);
+    handler.reply("TEXT", this.translate("RADIO_PLAYING", { VALUES: channel }));
   },
 
   tb_RadioPrevious (command, handler) {
     if (!this.Channels.length) {
-      handler.reply("TEXT", "No streams file defined");
+      handler.reply("TEXT", this.translate("NO_STREAMS_FILE"));
       return;
     }
     let channel = this.Channels.prev(this.radioPlayer.last);
     if (!channel) channel = this.Channels[this.Channels.length-1];
     this.playStream(channel);
-    handler.reply("TEXT", `Playing: ${channel}`);
+    handler.reply("TEXT", this.translate("RADIO_PLAYING", { VALUES: channel }));
   }
 });
