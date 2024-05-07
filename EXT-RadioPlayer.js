@@ -36,6 +36,13 @@ Module.register("EXT-RadioPlayer", {
     return [ "EXT-RadioPlayer.css" ];
   },
 
+  getTranslations () {
+    return {
+      en: "translations/en.json",
+      fr: "translations/fr.json"
+    };
+  },
+
   getDom () {
     var radio = document.createElement("div");
     radio.id = "EXT_RADIO";
@@ -63,11 +70,11 @@ Module.register("EXT-RadioPlayer", {
     marqueeContainer.appendChild(marqueeDiv);
     var marqueeSpan1 = document.createElement("span");
     marqueeSpan1.id = "EXT_RADIO-MarqueeSpan1";
-    marqueeSpan1.textContent = "- EXT-RadioPlayer -";
+    marqueeSpan1.textContent = this.translate("NO_INFORMATIONS");
     marqueeDiv.appendChild(marqueeSpan1);
     var marqueeSpan2 = document.createElement("span");
     marqueeSpan2.id = "EXT_RADIO-MarqueeSpan2";
-    marqueeSpan2.textContent = "- EXT-RadioPlayer -";
+    marqueeSpan2.textContent = this.translate("NO_INFORMATIONS");
     marqueeDiv.appendChild(marqueeSpan2);
     radio.appendChild(marqueeContainer);
 
@@ -194,10 +201,10 @@ Module.register("EXT-RadioPlayer", {
       var marquee2 = document.getElementById("EXT_RADIO-MarqueeSpan2");
       var container = document.getElementById("EXT_RADIO-RadioInformationContainer");
 
-      this.radioPlayer.now_playing = "No Informations available.";
+      this.radioPlayer.now_playing = this.translate("NO_INFORMATIONS");
       marquee1.textContent = this.radioPlayer.now_playing;
       marquee2.textContent = this.radioPlayer.now_playing;
-      radioName.textContent = this.radioPlayer.radio || "";
+      radioName.textContent = this.radioPlayer.radio || "EXT-RadioPlayer";
 
       radioImg.classList.remove("WipeEnter");
       let backOffSet = radioImg.offsetWidth;
@@ -213,9 +220,9 @@ Module.register("EXT-RadioPlayer", {
     var radioName = document.getElementById("EXT_RADIO-RadioName");
     var marquee1 = document.getElementById("EXT_RADIO-MarqueeSpan1");
     var marquee2 = document.getElementById("EXT_RADIO-MarqueeSpan2");
-    radioName.textContent = this.radioPlayer.title || this.radioPlayer.radio || "";
-    marquee1.textContent = this.radioPlayer.now_playing || "No Informations available.";
-    marquee2.textContent = this.radioPlayer.now_playing || "No Informations available.";
+    radioName.textContent = this.radioPlayer.title || this.radioPlayer.radio || "EXT-RadioPlayer";
+    marquee1.textContent = this.radioPlayer.now_playing || this.translate("NO_INFORMATIONS");
+    marquee2.textContent = this.radioPlayer.now_playing || this.translate("NO_INFORMATIONS");
   },
 
   /** initialise volume control for VLC **/

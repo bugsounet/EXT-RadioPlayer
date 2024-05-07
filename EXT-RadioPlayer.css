@@ -5,6 +5,7 @@
   line-height: 1.5em;
   display: inline-block;
   position: relative;
+  color: white;
 }
 
 #EXT_RADIO.hidden {
@@ -24,6 +25,7 @@
   text-align: center;
   align-self: center;
   font-size: medium;
+  margin-right: 5px;
 }
 
 #EXT_RADIO-RadioLogoContainer {
