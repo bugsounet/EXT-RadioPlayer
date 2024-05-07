@@ -100,6 +100,19 @@ module.exports = NodeHelper.create({
         await this.vlc.setVolumeRaw(this.config.maxVolume);
         this.sendSocketNotification("PLAYING");
       }
+      // Search meta
+      if (status.information.category.meta.title) {
+        if (this.radio.title !== status.information.category.meta.title) {
+          this.radio.title = status.information.category.meta.title;
+          this.sendSocketNotification("META", { title: this.radio.title });
+        }
+      }
+      if (status.information.category.meta.now_playing) {
+        if (this.radio.now_playing !== status.information.category.meta.now_playing) {
+          this.radio.now_playing = status.information.category.meta.now_playing;
+          this.sendSocketNotification("META", { now_playing: this.radio.now_playing });
+        }
+      }
       this.radio.is_playing = true;
       log("Playing");
     }

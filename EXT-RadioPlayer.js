@@ -24,7 +24,10 @@ Module.register("EXT-RadioPlayer", {
       play: false,
       img: null,
       link: null,
-      last: 9999
+      last: 9999,
+      radio: null,
+      title: null,
+      now_playing: null
     };
     this.canStop = true;
   },
@@ -36,6 +39,53 @@ Module.register("EXT-RadioPlayer", {
   getDom () {
     var radio = document.createElement("div");
     radio.id = "EXT_RADIO";
+    /*
+    var bannerContainer = document.createElement("div");
+    bannerContainer.id = "EXT_RADIO-BannerContainer";
+      var logoContainer = document.createElement("div");
+      logoContainer.id = "EXT_RADIO-LogoContainer";
+        var logo = document.createElement("img");
+        logo.id = "EXT_RADIO-Logo";
+        logo.src = "modules/EXT-RadioPlayer/Logos/radio.jpg";
+        logoContainer.appendChild(logo);
+      bannerContainer.appendChild(logoContainer);
+      var radioPlayer = document.createElement("div");
+      radioPlayer.id = "EXT_RADIO-RadioPlayer";
+      radioPlayer.textContent = "RadioPlayer";
+      bannerContainer.appendChild(radioPlayer);
+    radio.appendChild(bannerContainer);
+*/
+    var radioInformationContainer = document.createElement("div");
+    radioInformationContainer.id = "EXT_RADIO-RadioInformationContainer";
+    var radioName = document.createElement("div");
+    radioName.id = "EXT_RADIO-RadioName";
+    radioName.textContent = "Chérie FM Paris Nice Lille Marseille";
+    radioInformationContainer.appendChild(radioName);
+    var radioLogoContainer = document.createElement("div");
+    radioLogoContainer.id = "EXT_RADIO-RadioLogoContainer";
+    radioInformationContainer.appendChild(radioLogoContainer);
+    radioLogo = document.createElement("img");
+    radioLogo.id = "EXT_RADIO-RadioLogo";
+    radioLogo.src = "modules/EXT-RadioPlayer/Logos/radio.jpg";
+    radioLogoContainer.appendChild(radioLogo);
+    radio.appendChild(radioInformationContainer);
+
+    var marqueeContainer = document.createElement("div");
+    marqueeContainer.id = "EXT_RADIO-MarqueeContainer";
+    var marqueeDiv = document.createElement("div");
+    marqueeDiv.id = "EXT_RADIO-MarqueeDiv";
+    marqueeContainer.appendChild(marqueeDiv);
+    var marqueeSpan1 = document.createElement("span");
+    marqueeSpan1.id = "EXT_RADIO-MarqueeSpan1";
+    marqueeSpan1.textContent = "- EXT-RadioPlayer - Ceci est un test";
+    marqueeDiv.appendChild(marqueeSpan1);
+    var marqueeSpan2 = document.createElement("span");
+    marqueeSpan2.id = "EXT_RADIO-MarqueeSpan2";
+    marqueeSpan2.textContent = "- EXT-RadioPlayer - Ceci est un test";
+    marqueeDiv.appendChild(marqueeSpan2);
+    radio.appendChild(marqueeContainer);
+
+    /*
     var radioBackground = document.createElement("div");
     radioBackground.id = "EXT_RADIO_BACKGROUND";
     radio.appendChild(radioBackground);
@@ -46,11 +96,12 @@ Module.register("EXT-RadioPlayer", {
     radioImg.id = "EXT_RADIO_IMG";
     radioForeground.appendChild(radioImg);
     radioImg.addEventListener("error", () => { radioImg.src = this.file("Logos/radio.jpg"); }, false);
+    */
     return radio;
   },
 
   notificationReceived (noti, payload, sender) {
-    if (noti === "MODULE_DOM_CREATED") this.hide(0, () => {}, { lockString: "EXT-RADIO_LOCK" });
+    //if (noti === "MODULE_DOM_CREATED") this.hide(0, () => {}, { lockString: "EXT-RADIO_LOCK" });
     if (noti === "GA_READY" && sender.name === "MMM-GoogleAssistant") this.sendSocketNotification("INIT", this.config);
     if (noti === "EXT_VLCSERVER-START") this.sendSocketNotification("START");
     if (!this.radioPlayer.ready) return;
@@ -99,8 +150,18 @@ Module.register("EXT-RadioPlayer", {
         this.radioPlayer.play = true;
         this.showRadio();
         break;
+      case "META":
+        if (payload.title) this.radioPlayer.title = payload.title;
+        if (payload.now_playing) this.radioPlayer.now_playing = payload.now_playing;
+        this.updateMeta();
+        break;
       case "FINISH":
         this.radioPlayer.play = false;
+        this.radioPlayer.img =  null;
+        this.radioPlayer.link = null;
+        this.radioPlayer.radio = null;
+        this.radioPlayer.title = null;
+        this.radioPlayer.now_playing = null;
         this.showRadio();
         break;
       case "READY":
@@ -147,6 +208,24 @@ Module.register("EXT-RadioPlayer", {
   radioCommand (payload) {
     if (!this.radioPlayer.ready) return;
     if (payload.link) {
+      if (payload.img) {
+        this.radioPlayer.img = payload.img;
+      } else {
+        this.radioPlayer.img = "modules/EXT-RadioPlayer/Logos/radio.jpg";
+      }
+
+      var radioImg = document.getElementById("EXT_RADIO-RadioLogo");
+      var radioName = document.getElementById("EXT_RADIO-RadioName");
+      var marquee1 = document.getElementById("EXT_RADIO-MarqueeSpan1");
+      var marquee2 = document.getElementById("EXT_RADIO-MarqueeSpan2");
+
+      this.radioPlayer.now_playing = "No Informations available.";
+      marquee1.textContent = this.radioPlayer.now_playing;
+      marquee2.textContent = this.radioPlayer.now_playing;
+      radioName.textContent = this.radioPlayer.radio || "";
+      radioImg.src = this.radioPlayer.img;
+
+      /*
       var radioImg = document.getElementById("EXT_RADIO_IMG");
       var backGround = document.getElementById("EXT_RADIO_BACKGROUND");
       if (payload.img) {
@@ -164,10 +243,19 @@ Module.register("EXT-RadioPlayer", {
       let OffSet = radioImg.offsetWidth;
       radioImg.classList.add("WipeEnter");
       radioImg.src = this.radioPlayer.img;
-
+      */
       this.radioPlayer.link = payload.link;
       this.sendSocketNotification("PLAY", payload.link);
     }
+  },
+
+  updateMeta () {
+    var radioName = document.getElementById("EXT_RADIO-RadioName");
+    var marquee1 = document.getElementById("EXT_RADIO-MarqueeSpan1");
+    var marquee2 = document.getElementById("EXT_RADIO-MarqueeSpan2");
+    radioName.textContent = this.radioPlayer.title || this.radioPlayer.radio || "";
+    marquee1.textContent = this.radioPlayer.now_playing || "No Informations available.";
+    marquee2.textContent = this.radioPlayer.now_playing || "No Informations available.";
   },
 
   /** initialise volume control for VLC **/
@@ -221,6 +309,7 @@ Module.register("EXT-RadioPlayer", {
 
   playStream (channel) {
     if (!this.ChannelsCheck(channel)) return console.log("[RADIO] channel not found", channel);
+    this.radioPlayer.radio = channel;
     this.radioCommand(this.Radio[channel]);
     this.radioPlayer.last = this.Channels.indexOf(channel);
   },
