@@ -168,7 +168,7 @@ module.exports = NodeHelper.create({
               } else {
                 console.warn("[RADIO] No img found for:", key);
               }
-              log("[RADIO] Add:", key);
+              log("Added:", key);
             }
           } else {
             console.warn("[RADIO] No link found for:", key);
