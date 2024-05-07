@@ -87,7 +87,6 @@ module.exports = NodeHelper.create({
     else this.warn = 0;
 
     if (status.state === "playing") {
-      //console.log("---> Meta", status.information.category.meta)
       if (status.information.category.meta.filename !== this.radio.filename) {
         if (this.radio.is_playing) this.sendSocketNotification("FINISH");
         this.radio.is_playing = false;
@@ -114,7 +113,8 @@ module.exports = NodeHelper.create({
         }
       }
       this.radio.is_playing = true;
-      log("Playing");
+      log("Playing:", this.radio.link);
+      log("Meta:", status.information.category.meta);
     }
     if (status.state === "stopped") {
       if (this.radio.is_playing) this.sendSocketNotification("FINISH");
