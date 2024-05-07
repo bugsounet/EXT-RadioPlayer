@@ -192,7 +192,7 @@ Module.register("EXT-RadioPlayer", {
       var radioName = document.getElementById("EXT_RADIO-RadioName");
       var marquee1 = document.getElementById("EXT_RADIO-MarqueeSpan1");
       var marquee2 = document.getElementById("EXT_RADIO-MarqueeSpan2");
-      var container = document.getElementById("EXT_RADIO-RadioInformationContainer")
+      var container = document.getElementById("EXT_RADIO-RadioInformationContainer");
 
       this.radioPlayer.now_playing = "No Informations available.";
       marquee1.textContent = this.radioPlayer.now_playing;
