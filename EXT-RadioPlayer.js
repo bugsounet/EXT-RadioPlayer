@@ -58,7 +58,7 @@ Module.register("EXT-RadioPlayer", {
     radioInformationContainer.appendChild(radioLogoContainer);
     radioLogo = document.createElement("img");
     radioLogo.id = "EXT_RADIO-RadioLogo";
-    radioLogo.src = this.file("Logos/radio.jpg");
+    radioLogo.src = this.file("radio.jpg");
     radioLogo.addEventListener("error", () => { radioLogo.src = this.file("radio.jpg"); }, false);
     radioLogoContainer.appendChild(radioLogo);
     radio.appendChild(radioInformationContainer);
@@ -120,11 +120,18 @@ Module.register("EXT-RadioPlayer", {
 
   socketNotificationReceived (noti, payload) {
     switch(noti) {
-      case "ERROR": // EXT-Alert is unlocked for receive all alerts
+      case "ERROR":
         this.sendNotification("EXT_ALERT", {
           type: "error",
           message: payload,
           timer: 10000
+        });
+        break;
+      case "WARN":
+        this.sendNotification("EXT_ALERT", {
+          type: "warning",
+          message: payload,
+          timer: 5000
         });
         break;
       case "PLAYING":
@@ -164,8 +171,10 @@ Module.register("EXT-RadioPlayer", {
           return arr;
         };
         iterifyArr(this.Channels);
-        this.radioPlayer.ready = true;
-        this.sendNotification("EXT_HELLO", this.name);
+        if (!this.radioPlayer.ready) {
+          this.sendNotification("EXT_HELLO", this.name);
+          this.radioPlayer.ready = true;
+        }
         break;
       case "WILL_PLAYING":
         this.sendNotification("EXT_VLCServer-WILL_PLAYING");

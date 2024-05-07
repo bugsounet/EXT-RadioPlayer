@@ -150,7 +150,11 @@ module.exports = NodeHelper.create({
   },
 
   scanStreamsConfig () {
-    if (!this.config.streams) return console.warn("[RADIO] No Streams File found");
+    if (!this.config.streams) {
+      console.warn("[RADIO] No Streams File found");
+      this.sendSocketNotification("WARN", "No Streams File found!");
+      return;
+    }
     console.log("[RADIO] Reading Streams file:", this.config.streams);
     let file = path.resolve(__dirname, this.config.streams);
     if (fs.existsSync(file)) {
@@ -166,18 +170,23 @@ module.exports = NodeHelper.create({
               if (streams[key].img) {
                 this.Radio[key].img = streams[key].img;
               } else {
-                console.warn("[RADIO] No img found for:", key);
+                console.warn(`[RADIO] No img found for: ${key}`);
               }
               log("Added:", key);
             }
           } else {
-            console.warn("[RADIO] No link found for:", key);
+            console.warn(`[RADIO] No link found for: ${key}`);
+            this.sendSocketNotification("WARN", `No link found for: ${key}`);
           }
         });
         console.log("[RADIO] Number of radio found:", Object.keys(this.Radio).length);
       } catch (e) {
-        return console.error(`[RADIO] ERROR: ${this.config.streams}:`, e.message);
+        console.error(`[RADIO] ERROR: ${this.config.streams}: ${e.message}`);
+        this.sendSocketNotification("ERROR", `Error on streams file: ${this.config.streams}`);
       }
-    } else console.error(`[RADIO] ERROR: missing ${this.config.streams} configuration file!`);
+    } else {
+      console.error(`[RADIO] ERROR: missing ${this.config.streams} configuration file!`);
+      this.sendSocketNotification("ERROR", `ERROR: missing ${this.config.streams} configuration file!`);
+    }
   }
 });
