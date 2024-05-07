@@ -174,13 +174,12 @@ Module.register("EXT-RadioPlayer", {
   },
 
   showRadio () {
-    if (this.radioPlayer.img) {
-      if (this.radioPlayer.play) this.show(1000, () => {}, { lockString: "EXT-RADIO_LOCK" });
-      else this.hide(1000, () => {}, { lockString: "EXT-RADIO_LOCK" });
-    }
-    if (this.radioPlayer.play) this.sendNotification("EXT_RADIO-CONNECTED");
-    else {
+    if (this.radioPlayer.play) {
+      this.sendNotification("EXT_RADIO-CONNECTED");
+      this.show(1000, () => {}, { lockString: "EXT-RADIO_LOCK" });
+    } else {
       this.sendNotification("EXT_RADIO-DISCONNECTED");
+      this.hide(1000, () => {}, { lockString: "EXT-RADIO_LOCK" });
       this.canStop = true;
     }
   },
