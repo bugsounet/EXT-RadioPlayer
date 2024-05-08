@@ -298,18 +298,23 @@ Module.register("EXT-RadioPlayer", {
   EXT_TELBOTCommands (commander) {
     commander.add({
       command: "Radio",
-      description: this.translate("PLAY_RADIO"),
+      description: this.translate("RADIO_DESC_RADIO"),
       callback: "tb_RadioPlay"
     });
     commander.add({
       command: "RadioNext",
-      description: this.translate("PLAY_NEXT_RADIO"),
+      description: this.translate("RADIO_DESC_NEXT"),
       callback: "tb_RadioNext"
     });
     commander.add({
       command: "RadioPrevious",
-      description: this.translate("PLAY_PREVIOUS_RADIO"),
+      description: this.translate("RADIO_DESC_PREVIOUS"),
       callback: "tb_RadioPrevious"
+    });
+    commander.add({
+      command: "RadioList",
+      description: this.translate("RADIO_DESC_LIST"),
+      callback: "tb_RadioList"
     });
   },
 
@@ -356,5 +361,15 @@ Module.register("EXT-RadioPlayer", {
     if (!channel) channel = this.Channels[this.Channels.length-1];
     this.playStream(channel);
     handler.reply("TEXT", this.translate("RADIO_PLAYING", { VALUES: channel }));
+  },
+
+  tb_RadioList (command, handler) {
+    if (!this.Channels.length) {
+      handler.reply("TEXT", this.translate("NO_STREAMS_FILE"));
+      return;
+    }
+    let List = this.Channels.toString();
+    List = List.replaceAll(",", "\n - ");
+    handler.reply("TEXT", this.translate("RADIO_LIST", { VALUES: List }), { parse_mode: "Markdown" });
   }
 });
