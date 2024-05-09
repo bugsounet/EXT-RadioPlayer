@@ -79,7 +79,7 @@ module.exports = NodeHelper.create({
             this.radio.is_playing = false;
           } else console.warn(`[RADIO] Wait for response... (${this.warn}/5)`);
         } else {
-          console.error("[RADIO]", err.message);
+          console.error(`[RADIO] ${err.message}`);
           this.sendSocketNotification("ERROR", `VLC Client error: ${err.message}`);
           this.sendSocketNotification("FINISH");
           this.radio.is_playing = false;
