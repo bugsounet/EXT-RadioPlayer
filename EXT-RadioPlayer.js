@@ -241,11 +241,11 @@ Module.register("EXT-RadioPlayer", {
       valueMin = parseInt(this.config.minVolume);
       if (typeof valueMin === "number" && valueMin >= 0 && valueMin <= 100) this.config.minVolume = this.convertPercentToValue(valueMin);
       else {
-        console.error("[RADIO] config.minVolume error! Corrected with 30");
+        console.warn("[RADIO] config.minVolume error! Corrected with 30");
         this.config.minVolume = 70;
       }
     } catch (e) {
-      console.error("[RADIO] config.minVolume error!", e);
+      console.warn("[RADIO] config.minVolume error!", e);
       this.config.minVolume = 70;
     }
     try {
@@ -253,11 +253,11 @@ Module.register("EXT-RadioPlayer", {
       valueMax = parseInt(this.config.maxVolume);
       if (typeof valueMax === "number" && valueMax >= 0 && valueMax <= 100) this.config.maxVolume = this.convertPercentToValue(valueMax);
       else {
-        console.error("[RADIO] config.maxVolume error! Corrected with 100");
+        console.warn("[RADIO] config.maxVolume error! Corrected with 100");
         this.config.maxVolume = 255;
       }
     } catch (e) {
-      console.error("[RADIO] config.maxVolume error!", e);
+      console.warn("[RADIO] config.maxVolume error!", e);
       this.config.maxVolume = 255;
     }
     console.log("[RADIO] VLC Volume Control initialized!");
@@ -283,7 +283,14 @@ Module.register("EXT-RadioPlayer", {
   },
 
   playStream (channel) {
-    if (!this.ChannelsCheck(channel)) return console.log(`[RADIO] channel not found: ${channel}`);
+    if (!this.ChannelsCheck(channel)) {
+      console.log(`[RADIO] Radio not found: ${channel}`);
+      this.sendNotification("EXT_ALERT", {
+        type: "error",
+        message: `Radio not found: ${channel}`,
+        timer: 10000
+      });
+    }
     this.radioPlayer.radio = channel;
     this.radioCommand(this.Radio[channel]);
     this.radioPlayer.last = this.Channels.indexOf(channel);
