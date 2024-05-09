@@ -1,8 +1,9 @@
- 
-/**  Radio italiane   **/
-/** aggiornate al giorno 09/05/20 **/
-/**  @di-ma  **/
-/** update for GA v4 22/03/26 @bugsounet **/
+/**  Radio italiane
+ * aggiornate al giorno 09/05/20
+ *  @di-ma
+ * update for GA v4 22/03/26 @bugsounet
+ * 2024/05 - @bugsounet: Updated for EXT-RadioPlayer v2.0.0
+**/
 
 var recipe = {
   transcriptionHooks: {
@@ -18,21 +19,9 @@ var recipe = {
       pattern: "metti radio italia",
       command: "radioitalia"
     },
-    "radio1": {
-      pattern: "metti radio 1",
-      command: "radio1"
-    },
-    "radioanni90": {
-      pattern: "metti radio anni 90",
-      command: "radioanni90"
-    },
     "radio105": {
       pattern: "metti radio 105",
       command: "radio105"
-    },
-    "rds": {
-      pattern: "metti rds",
-      command: "rds"
     },
     "rtl1025": {
       pattern: "metti rtl",
@@ -47,13 +36,8 @@ var recipe = {
   commands: {
     "kisskiss": {
       notificationExec: {
-        notification: "EXT_RADIO-START",
-        payload: (params) => {
-          return {
-            img: "modules/EXT-RadioPlayer/Logos/IT/kisskiss.png",
-            link: "http://ice07.fluidstream.net:8080/KissKiss.mp3"
-          }
-        }
+        notification: "EXT_RADIO-PLAY",
+        payload: "Radio Kiss Kiss"
       },
       displayResponse: false,
       soundExec: {
@@ -62,13 +46,8 @@ var recipe = {
     },
    "radio101": {
       notificationExec: {
-        notification: "EXT_RADIO-START",
-        payload: (params) => {
-          return {
-            img: "modules/EXT-RadioPlayer/Logos/IT/r101.png",
-            link: "http://icecast.unitedradio.it/r101"
-          }
-        }
+        notification: "EXT_RADIO-PLAY",
+        payload: "Radio 101"
       },
       displayResponse: false,
       soundExec: {
@@ -77,43 +56,8 @@ var recipe = {
     },
    "radioitalia": {
       notificationExec: {
-        notification: "EXT_RADIO-START",
-        payload: (params) => {
-          return {
-            img: "modules/EXT-RadioPlayer/Logos/IT/radioitalia.jpg",
-            link: "http://stream1.rds.it:8000/rds64k"
-          }
-        }
-      },
-      displayResponse: false,
-      soundExec: {
-        chime: "open"
-      }
-    },
-    "radio1": {
-      notificationExec: {
-        notification: "EXT_RADIO-START",
-        payload: (params) => {
-          return {
-            img: "modules/EXT-RadioPlayer/Logos/IT/radio1.png",
-            link: "http://icestreaming.rai.it/1.mp3"
-          }
-        }
-      },
-      displayResponse: false,
-      soundExec: {
-        chime: "open"
-      }
-    },
-    "radioanni90": {
-      notificationExec: {
-        notification: "EXT_RADIO-START",
-        payload: (params) => {
-          return {
-            img: "modules/EXT-RadioPlayer/Logos/IT/r90.jpg",
-            link: "http://mp3.hitradiort1.c.nmdn.net/rt190swl/livestream.mp3"
-          }
-        }
+        notification: "EXT_RADIO-PLAY",
+        payload: "Radio Italia"
       },
       displayResponse: false,
       soundExec: {
@@ -122,28 +66,8 @@ var recipe = {
     },
     "radio105": {
       notificationExec: {
-        notification: "EXT_RADIO-START",
-        payload: (params) => {
-          return {
-            img: "modules/EXT-RadioPlayer/Logos/IT/r105.jpg",
-            link: "http://icecast.unitedradio.it/Radio105.mp3"
-          }
-        }
-      },
-      displayResponse: false,
-      soundExec: {
-        chime: "open"
-      }
-    },
-    "rds": {
-      notificationExec: {
-        notification: "EXT_RADIO-START",
-        payload: (params) => {
-          return {
-            img: "modules/EXT-RadioPlayer/Logos/IT/rds.png",
-            link: "https://icstream.rds.radio/rds"
-          }
-        }
+        notification: "EXT_RADIO-PLAY",
+        payload: "Radio 105"
       },
       displayResponse: false,
       soundExec: {
@@ -152,13 +76,8 @@ var recipe = {
     },
     "rtl1025": {
       notificationExec: {
-        notification: "EXT_RADIO-START",
-        payload: (params) => {
-          return {
-            img: "modules/EXT-RadioPlayer/Logos/IT/rtl1025.png",
-            link: "https://streamingv2.shoutcast.com/rtl-1025"
-          }
-        }
+        notification: "EXT_RADIO-PLAY",
+        payload: "RTL 102.5"
       },
       displayResponse: false,
       soundExec: {
@@ -167,13 +86,8 @@ var recipe = {
     },
     "radiodj": {
       notificationExec: {
-        notification: "EXT_RADIO-START",
-        payload: (params) => {
-          return {
-            img: "modules/EXT-RadioPlayer/Logos/IT/radiodj.png",
-            link: "http://radiodeejay-lh.akamaihd.net/i/RadioDeejay_Live_1@189857/master.m3u8"
-          }
-        }
+        notification: "EXT_RADIO-PLAY",
+        payload: "Radio Deejay"
       },
       displayResponse: false,
       soundExec: {
