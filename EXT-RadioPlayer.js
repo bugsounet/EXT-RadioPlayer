@@ -283,7 +283,7 @@ Module.register("EXT-RadioPlayer", {
   },
 
   playStream (channel) {
-    if (!this.ChannelsCheck(channel)) return console.log("[RADIO] channel not found", channel);
+    if (!this.ChannelsCheck(channel)) return console.log(`[RADIO] channel not found: ${channel}`);
     this.radioPlayer.radio = channel;
     this.radioCommand(this.Radio[channel]);
     this.radioPlayer.last = this.Channels.indexOf(channel);
