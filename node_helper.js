@@ -45,7 +45,7 @@ module.exports = NodeHelper.create({
 
   initialize () {
     if (this.config.debug) log = (...args) => { console.log("[RADIO]", ...args); };
-    console.log("[RADIO] EXT-RadioPlayer Version:", require("./package.json").version, "rev:", require("./package.json").rev);
+    console.log(`[RADIO] EXT-RadioPlayer Version: ${require("./package.json").version} rev: ${require("./package.json").rev}`);
     this.scanStreamsConfig();
   },
 
@@ -71,13 +71,13 @@ module.exports = NodeHelper.create({
       (err)=> {
         if (err.code === "ECONNREFUSED" || err.message.includes("Unauthorized")) {
           this.warn++;
-          console.error("[RADIO] Can't start VLC Client! Reason:", err.message);
+          console.error(`[RADIO] Can't start VLC Client! Reason: ${err.message}`);
           if (this.warn > 5) {
             clearTimeout(this.statusInterval);
             this.sendSocketNotification("ERROR", `Can't start VLC Client! Reason: ${err.message}`);
             this.sendSocketNotification("FINISH");
             this.radio.is_playing = false;
-          } else console.error("[RADIO] Wait for response...", this.warn);
+          } else console.warn(`[RADIO] Wait for response... (${this.warn}/5)`);
         } else {
           console.error("[RADIO]", err.message);
           this.sendSocketNotification("ERROR", `VLC Client error: ${err.message}`);
@@ -99,7 +99,7 @@ module.exports = NodeHelper.create({
         return;
       }
       if (!this.radio.is_playing) {
-        log("Set volume to", this.config.maxVolume);
+        log(`Set volume to ${this.config.maxVolume}`);
         await this.vlc.setVolumeRaw(this.config.maxVolume);
         this.sendSocketNotification("PLAYING");
       }
@@ -117,8 +117,8 @@ module.exports = NodeHelper.create({
         }
       }
       this.radio.is_playing = true;
-      log("Playing:", this.radio.link);
-      log("Meta:", status.information.category.meta);
+      log(`Playing: ${this.radio.link}`);
+      log(`Meta: ${status.information.category.meta}`);
     }
     if (status.state === "stopped") {
       if (this.radio.is_playing) this.sendSocketNotification("FINISH");
@@ -159,7 +159,7 @@ module.exports = NodeHelper.create({
       this.sendSocketNotification("WARN", "No Streams File found!");
       return;
     }
-    console.log("[RADIO] Reading Streams file:", this.config.streams);
+    console.log(`[RADIO] Reading Streams file: ${this.config.streams}`);
     let file = path.resolve(__dirname, this.config.streams);
     if (fs.existsSync(file)) {
       try {
@@ -167,7 +167,7 @@ module.exports = NodeHelper.create({
         Object.keys(streams).forEach((key) => {
           if (streams[key].link) {
             if (streams[key].link.endsWith(".m3u")) {
-              console.warn("[RADIO] Ignore .m3u link for:", key);
+              console.warn(`[RADIO] Ignore .m3u link for: ${key}`);
             } else {
               this.Radio[key] = {};
               this.Radio[key].link = streams[key].link;
@@ -176,14 +176,14 @@ module.exports = NodeHelper.create({
               } else {
                 console.warn(`[RADIO] No img found for: ${key}`);
               }
-              log("Added:", key);
+              log(`Added: ${key}`);
             }
           } else {
             console.warn(`[RADIO] No link found for: ${key}`);
             this.sendSocketNotification("WARN", `No link found for: ${key}`);
           }
         });
-        console.log("[RADIO] Number of radio found:", Object.keys(this.Radio).length);
+        console.log(`[RADIO] Number of radio found: ${Object.keys(this.Radio).length}`);
       } catch (e) {
         console.error(`[RADIO] ERROR: ${this.config.streams}: ${e.message}`);
         this.sendSocketNotification("ERROR", `Error on streams file: ${this.config.streams}`);
