@@ -1,6 +1,7 @@
-/**  Radio francaise   **/
-/** mis à jour le 26/03/22 **/
-/**  @bugsounet  and @2hdlockness  **/
+/** Radio francaise  **/
+/** mis à jour le 05/05/24 **/
+/** @bugsounet **/
+/** from streamsConfig.fr.json **/
 
 var recipe = {
   transcriptionHooks: {
@@ -69,13 +70,8 @@ var recipe = {
   commands: {
     "cheriefm": {
       notificationExec: {
-        notification: "EXT_RADIO-START",
-        payload: (params) => {
-          return {
-            img: "modules/EXT-RadioPlayer/Logos/FR/ChérieFM.png",
-            link: "https://scdn.nrjaudio.fm/fr/30201/mp3_128.mp3?origine=EXT-RadioPlayer&cdn_path=audio_lbs9"
-          }
-        }
+        notification: "EXT_RADIO-PLAY",
+        payload: "Chérie FM"
       },
       displayResponse: false,
       soundExec: {
@@ -84,13 +80,8 @@ var recipe = {
     },
    "rtl": {
       notificationExec: {
-        notification: "EXT_RADIO-START",
-        payload: (params) => {
-          return {
-            img: "modules/EXT-RadioPlayer/Logos/FR/RTL.png",
-            link: "http://streaming.radio.rtl.fr/rtl-1-44-128"
-          }
-        }
+        notification: "EXT_RADIO-PLAY",
+        payload: "RTL"
       },
       displayResponse: false,
       soundExec: {
@@ -99,13 +90,8 @@ var recipe = {
     },
    "rireetchansons": {
       notificationExec: {
-        notification: "EXT_RADIO-START",
-        payload: (params) => {
-          return {
-            img: "modules/EXT-RadioPlayer/Logos/FR/Rire&Chansons.png",
-            link: "https://scdn.nrjaudio.fm/audio1/fr/30401/mp3_128.mp3"
-          }
-        }
+        notification: "EXT_RADIO-PLAY",
+        payload: "Rire et chansons"
       },
       displayResponse: false,
       soundExec: {
@@ -114,13 +100,8 @@ var recipe = {
     },
     "rtl2": {
       notificationExec: {
-        notification: "EXT_RADIO-START",
-        payload: (params) => {
-          return {
-            img: "modules/EXT-RadioPlayer/Logos/FR/RTL2.png",
-            link: "http://streaming.radio.rtl2.fr/rtl2-1-44-128"
-          }
-        }
+        notification: "EXT_RADIO-PLAY",
+        payload: "RTL2"
       },
       displayResponse: false,
       soundExec: {
@@ -129,13 +110,8 @@ var recipe = {
     },
     "funradio": {
       notificationExec: {
-        notification: "EXT_RADIO-START",
-        payload: (params) => {
-          return {
-            img: "modules/EXT-RadioPlayer/Logos/FR/FunRadio.png",
-            link: "http://streaming.radio.funradio.fr:80/fun-1-44-128"
-          }
-        }
+        notification: "EXT_RADIO-PLAY",
+        payload: "FunRadio"
       },
       displayResponse: false,
       soundExec: {
@@ -144,13 +120,8 @@ var recipe = {
     },
     "europe1": {
       notificationExec: {
-        notification: "EXT_RADIO-START",
-        payload: (params) => {
-          return {
-            img: "modules/EXT-RadioPlayer/Logos/FR/Europe1.png",
-            link: "http://ais-live.cloud-services.paris:8000/europe1.mp3"
-          }
-        }
+        notification: "EXT_RADIO-PLAY",
+        payload: "Europe1"
       },
       displayResponse: false,
       soundExec: {
@@ -159,13 +130,8 @@ var recipe = {
     },
     "rfm": {
       notificationExec: {
-        notification: "EXT_RADIO-START",
-        payload: (params) => {
-          return {
-            img: "modules/EXT-RadioPlayer/Logos/FR/RFM.png",
-            link: "https://ais-live.cloud-services.paris:8443/rfm.mp3"
-          }
-        }
+        notification: "EXT_RADIO-PLAY",
+        payload: "RFM"
       },
       displayResponse: false,
       soundExec: {
@@ -174,13 +140,8 @@ var recipe = {
     },
     "rmc": {
       notificationExec: {
-        notification: "EXT_RADIO-START",
-        payload: (params) => {
-          return {
-            img: "modules/EXT-RadioPlayer/Logos/FR/RMC.svg",
-            link: "http://chai5she.cdn.dvmr.fr/rmcinfo"
-          }
-        }
+        notification: "EXT_RADIO-PLAY",
+        payload: "RMC"
       },
       displayResponse: false,
       soundExec: {
@@ -189,13 +150,8 @@ var recipe = {
     },
     "nrj": {
       notificationExec: {
-        notification: "EXT_RADIO-START",
-        payload: (params) => {
-          return {
-            img: "modules/EXT-RadioPlayer/Logos/FR/NRJ.png",
-            link: "https://scdn.nrjaudio.fm/audio1/fr/30001/mp3_128.mp3"
-          }
-        }
+        notification: "EXT_RADIO-PLAY",
+        payload: "NRJ"
       },
       displayResponse: false,
       soundExec: {
@@ -204,13 +160,8 @@ var recipe = {
     },
     "nostalgie": {
       notificationExec: {
-        notification: "EXT_RADIO-START",
-        payload: (params) => {
-          return {
-            img: "modules/EXT-RadioPlayer/Logos/FR/Nostalgie.png",
-            link: "http://185.52.127.155/fr/40045/aac_64.mp3?origine=EXT-RadioPlayer"
-          }
-        }
+        notification: "EXT_RADIO-PLAY",
+        payload: "Nostalgie"
       },
       displayResponse: false,
       soundExec: {
@@ -219,13 +170,8 @@ var recipe = {
     },
     "contact": {
       notificationExec: {
-        notification: "EXT_RADIO-START",
-        payload: (params) => {
-          return {
-            img: "modules/EXT-RadioPlayer/Logos/FR/contact.png",
-            link: "http://radio-contact.ice.infomaniak.ch/radio-contact-high.mp3"
-          }
-        }
+        notification: "EXT_RADIO-PLAY",
+        payload: "Contact FM"
       },
       displayResponse: false,
       soundExec: {
@@ -234,13 +180,8 @@ var recipe = {
     },
     "voltage": {
       notificationExec: {
-        notification: "EXT_RADIO-START",
-        payload: (params) => {
-          return {
-            img: "modules/EXT-RadioPlayer/Logos/FR/voltage.png",
-            link: "http://start-voltage.ice.infomaniak.ch/start-voltage-high.mp3"
-          }
-        }
+        notification: "EXT_RADIO-PLAY",
+        payload: "Voltage"
       },
       displayResponse: false,
       soundExec: {
@@ -249,13 +190,8 @@ var recipe = {
     },
     "skyrock": {
       notificationExec: {
-        notification: "EXT_RADIO-START",
-        payload: (params) => {
-          return {
-            img: "modules/EXT-RadioPlayer/Logos/FR/Skyrock.png",
-            link: "http://icecast.skyrock.net/s/natio_mp3_128k"
-          }
-        }
+        notification: "EXT_RADIO-PLAY",
+        payload: "Skyrock"
       },
       displayResponse: false,
       soundExec: {
@@ -264,13 +200,8 @@ var recipe = {
     },
     "fg": {
       notificationExec: {
-        notification: "EXT_RADIO-START",
-        payload: (params) => {
-          return {
-            img: "modules/EXT-RadioPlayer/Logos/FR/fg.png",
-            link: "http://radiofg.impek.com/fg"
-          }
-        }
+        notification: "EXT_RADIO-PLAY",
+        payload: "Radio FG"
       },
       displayResponse: false,
       soundExec: {
@@ -279,13 +210,8 @@ var recipe = {
     },
     "franceinter": {
       notificationExec: {
-        notification: "EXT_RADIO-START",
-        payload: (params) => {
-          return {
-            img: "modules/EXT-RadioPlayer/Logos/FR/FranceInter.png",
-            link: "http://direct.franceinter.fr/live/franceinter-midfi.mp3"
-          }
-        }
+        notification: "EXT_RADIO-PLAY",
+        payload: "France Inter"
       },
       displayResponse: false,
       soundExec: { chime: "open" }

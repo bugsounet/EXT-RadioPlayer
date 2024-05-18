@@ -1,7 +1,7 @@
 {
   "name": "EXT-RadioPlayer",
-  "version": "1.4.2",
-  "rev": "240422",
+  "version": "2.0.0",
+  "rev": "240507",
   "description": "An embedded radio player on MagicMirror.",
   "main": "EXT-RadioPlayer.js",
   "scripts": {
@@ -35,13 +35,13 @@
   },
   "homepage": "https://wiki.bugsounet.fr/en/EXT-RadioPlayer",
   "dependencies": {
-    "@magicmirror2/cvlc": "^1.0.8",
-    "esbuild": "^0.20.2",
-    "glob": "^10.3.12"
+    "esbuild": "^0.21.2",
+    "glob": "^10.3.15",
+    "vlc-client": "^1.1.1"
   },
   "devDependencies": {
     "@eslint/js": "^8.57.0",
-    "@stylistic/eslint-plugin": "^1.7.2",
+    "@stylistic/eslint-plugin": "^2.1.0",
     "eslint": "^8.57.0",
     "eslint-plugin-import": "^2.29.1"
   }
