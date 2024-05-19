@@ -1,7 +1,7 @@
 {
   "name": "EXT-RadioPlayer",
-  "version": "2.0.0",
-  "rev": "240507",
+  "version": "2.0.1",
+  "rev": "240519",
   "description": "An embedded radio player on MagicMirror.",
   "main": "EXT-RadioPlayer.js",
   "scripts": {
@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^8.57.0",
-    "@stylistic/eslint-plugin": "^2.1.0",
+    "@stylistic/eslint-plugin": "1.8.0",
     "eslint": "^8.57.0",
     "eslint-plugin-import": "^2.29.1"
   }
