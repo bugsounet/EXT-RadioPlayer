@@ -6,7 +6,7 @@ jobs:
   eslint:
     name: Run eslint scanning
     runs-on: ubuntu-latest
-    steps:*
+    steps:
       - name: "Use Node.js v20.x (latest)"
         uses: actions/setup-node@v4
         with:
