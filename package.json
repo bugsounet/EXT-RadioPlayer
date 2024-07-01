@@ -1,12 +1,12 @@
 {
   "name": "EXT-RadioPlayer",
-  "version": "2.0.1",
-  "rev": "240519",
+  "version": "2.1.0",
+  "rev": "240701",
   "description": "An embedded radio player on MagicMirror.",
   "main": "EXT-RadioPlayer.js",
   "scripts": {
     "preinstall": "installer/preinstall.sh -d 'vlc'",
-    "postinstall": "installer/postinstall.sh -m -b",
+    "postinstall": "installer/postinstall.sh -m",
     "update": "installer/update.sh",
     "reset": "git reset --hard",
     "clean": "rm -rf node_modules package-lock.json",
@@ -24,24 +24,24 @@
   "author": "bugsounet",
   "license": "MIT",
   "bugs": {
-    "url": "https://forum.bugsounet.fr"
+    "url": "https://github.com/bugsounet/EXT-RadioPlayer/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/bugsounet/EXT-RadioPlayer"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "homepage": "https://wiki.bugsounet.fr/en/EXT-RadioPlayer",
   "dependencies": {
-    "esbuild": "^0.21.2",
-    "glob": "^10.3.15",
+    "esbuild": "^0.22.0",
+    "glob": "^10.4.2",
     "vlc-client": "^1.1.1"
   },
   "devDependencies": {
     "@eslint/js": "^8.57.0",
-    "@stylistic/eslint-plugin": "1.8.0",
+    "@stylistic/eslint-plugin": "^1.8.1",
     "eslint": "^8.57.0",
     "eslint-plugin-import": "^2.29.1"
   }
