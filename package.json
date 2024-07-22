@@ -36,7 +36,7 @@
   "homepage": "https://wiki.bugsounet.fr/en/EXT-RadioPlayer",
   "dependencies": {
     "esbuild": "^0.23.0",
-    "glob": "^10.4.3",
+    "glob": "^10.4.5",
     "vlc-client": "^1.1.1"
   },
   "devDependencies": {
