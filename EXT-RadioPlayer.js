@@ -121,14 +121,14 @@ Module.register("EXT-RadioPlayer", {
   socketNotificationReceived (noti, payload) {
     switch(noti) {
       case "ERROR":
-        this.sendNotification("EXT_ALERT", {
+        this.sendNotification("GA_ALERT", {
           type: "error",
           message: payload,
           timer: 10000
         });
         break;
       case "WARN":
-        this.sendNotification("EXT_ALERT", {
+        this.sendNotification("GA_ALERT", {
           type: "warning",
           message: payload,
           timer: 5000
@@ -286,7 +286,7 @@ Module.register("EXT-RadioPlayer", {
   playStream (channel) {
     if (!this.ChannelsCheck(channel)) {
       console.log(`[RADIO] Radio not found: ${channel}`);
-      this.sendNotification("EXT_ALERT", {
+      this.sendNotification("GA_ALERT", {
         type: "error",
         message: `Radio not found: ${channel}`,
         timer: 10000
