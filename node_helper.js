@@ -5,7 +5,7 @@ const path = require("node:path");
 var NodeHelper = require("node_helper");
 const VLC = require("vlc-client");
 
-var log = (...args) => { /* do nothing */ };
+var log = () => { /* do nothing */ };
 
 module.exports = NodeHelper.create({
   start () {
@@ -68,7 +68,7 @@ module.exports = NodeHelper.create({
 
   async status () {
     const status = await this.vlc.status().catch(
-      (err)=> {
+      (err) => {
         if (err.code === "ECONNREFUSED" || err.message.includes("Unauthorized")) {
           this.warn++;
           console.error(`[RADIO] Can't start VLC Client! Reason: ${err.message}`);

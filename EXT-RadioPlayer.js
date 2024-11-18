@@ -19,7 +19,7 @@ Module.register("EXT-RadioPlayer", {
     this.Radio = {};
     this.Channels = [];
     this.initializeMusicVolumeVLC();
-    this.radioPlayer= {
+    this.radioPlayer = {
       ready: false,
       play: false,
       img: null,
@@ -33,7 +33,7 @@ Module.register("EXT-RadioPlayer", {
   },
 
   getStyles () {
-    return [ "EXT-RadioPlayer.css" ];
+    return ["EXT-RadioPlayer.css"];
   },
 
   getTranslations () {
@@ -56,7 +56,7 @@ Module.register("EXT-RadioPlayer", {
     var radioLogoContainer = document.createElement("div");
     radioLogoContainer.id = "EXT_RADIO-RadioLogoContainer";
     radioInformationContainer.appendChild(radioLogoContainer);
-    radioLogo = document.createElement("img");
+    var radioLogo = document.createElement("img");
     radioLogo.id = "EXT_RADIO-RadioLogo";
     radioLogo.src = this.file("radio.jpg");
     radioLogo.addEventListener("error", () => { radioLogo.src = this.file("radio.jpg"); }, false);
@@ -87,7 +87,7 @@ Module.register("EXT-RadioPlayer", {
     if (noti === "EXT_VLCSERVER-START") this.sendSocketNotification("START");
     if (!this.radioPlayer.ready) return;
 
-    switch(noti) {
+    switch (noti) {
       case "EXT_VLCServer-WILL_PLAYING":
         this.canStop = false;
         break;
@@ -119,7 +119,7 @@ Module.register("EXT-RadioPlayer", {
   },
 
   socketNotificationReceived (noti, payload) {
-    switch(noti) {
+    switch (noti) {
       case "ERROR":
         this.sendNotification("GA_ALERT", {
           type: "error",
@@ -145,7 +145,7 @@ Module.register("EXT-RadioPlayer", {
         break;
       case "FINISH":
         this.radioPlayer.play = false;
-        this.radioPlayer.img =  null;
+        this.radioPlayer.img = null;
         this.radioPlayer.link = null;
         this.radioPlayer.radio = null;
         this.radioPlayer.title = null;
@@ -165,7 +165,7 @@ Module.register("EXT-RadioPlayer", {
           arr.prev = (current) => {
             var previous = current;
             previous = previous - 1;
-            if (previous < 0) return arr[arr.length-1];
+            if (previous < 0) return arr[arr.length - 1];
             return arr[previous];
           };
           return arr;
@@ -208,7 +208,6 @@ Module.register("EXT-RadioPlayer", {
       var radioName = document.getElementById("EXT_RADIO-RadioName");
       var marquee1 = document.getElementById("EXT_RADIO-MarqueeSpan1");
       var marquee2 = document.getElementById("EXT_RADIO-MarqueeSpan2");
-      var container = document.getElementById("EXT_RADIO-RadioInformationContainer");
 
       this.radioPlayer.now_playing = this.translate("NO_INFORMATIONS");
       marquee1.textContent = this.radioPlayer.now_playing;
@@ -216,6 +215,7 @@ Module.register("EXT-RadioPlayer", {
       radioName.textContent = this.radioPlayer.radio || "EXT-RadioPlayer";
 
       radioImg.classList.remove("WipeEnter");
+      /* eslint-disable-next-line */
       let backOffSet = radioImg.offsetWidth;
       radioImg.classList.add("WipeEnter");
       radioImg.src = this.radioPlayer.img;
@@ -236,6 +236,7 @@ Module.register("EXT-RadioPlayer", {
 
   /** initialise volume control for VLC **/
   initializeMusicVolumeVLC () {
+
     /** convert volume **/
     try {
       let valueMin = null;
@@ -266,7 +267,7 @@ Module.register("EXT-RadioPlayer", {
 
   /** Convert percent to cvlc value **/
   convertPercentToValue (percent) {
-    return parseInt(((percent*256)/100).toFixed(0));
+    return parseInt(((percent * 256) / 100).toFixed(0));
   },
 
   playNextStream () {
@@ -279,7 +280,7 @@ Module.register("EXT-RadioPlayer", {
   playPreviousStream () {
     let last = this.radioPlayer.last;
     let channel = this.Channels.prev(last);
-    if (!channel) channel = this.Channels[this.Channels.length-1];
+    if (!channel) channel = this.Channels[this.Channels.length - 1];
     this.playStream(channel);
   },
 
@@ -366,7 +367,7 @@ Module.register("EXT-RadioPlayer", {
       return;
     }
     let channel = this.Channels.prev(this.radioPlayer.last);
-    if (!channel) channel = this.Channels[this.Channels.length-1];
+    if (!channel) channel = this.Channels[this.Channels.length - 1];
     this.playStream(channel);
     handler.reply("TEXT", this.translate("RADIO_PLAYING", { VALUES: channel }));
   },
